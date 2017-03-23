@@ -36,3 +36,5 @@
 *.dSYM/
 *.su
 
+Workspace/PICOS.X/build/18f452/production/int.lst
+Workspace/PICOS.X/build/18f452/production/kernel.lst
