@@ -13,8 +13,8 @@ ifeq "${IGNORE_LOCAL}" "TRUE"
 else
 include Makefile
 # Include makefile containing local settings
-ifeq "$(wildcard nbproject/Makefile-local-C18_18F87K22.mk)" "nbproject/Makefile-local-C18_18F87K22.mk"
-include nbproject/Makefile-local-C18_18F87K22.mk
+ifeq "$(wildcard nbproject/Makefile-local-18f452.mk)" "nbproject/Makefile-local-18f452.mk"
+include nbproject/Makefile-local-18f452.mk
 endif
 endif
 
@@ -25,7 +25,7 @@ MV=mv
 CP=cp 
 
 # Macros
-CND_CONF=C18_18F87K22
+CND_CONF=18f452
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
 OUTPUT_SUFFIX=cof
@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c
+SOURCEFILES_QUOTED_IF_SPACED=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/alarm.o.d ${OBJECTDIR}/boot.o.d ${OBJECTDIR}/even_man.o.d ${OBJECTDIR}/int_man.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/pro_man.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/tsk_led.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/alarm.o.d ${OBJECTDIR}/boot.o.d ${OBJECTDIR}/even_man.o.d ${OBJECTDIR}/int_man.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/pro_man.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/tsk_led.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/kernel.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o
+OBJECTFILES=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o
 
 # Source Files
-SOURCEFILES=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c
+SOURCEFILES=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm
 
 
 CFLAGS=
@@ -81,15 +81,47 @@ FIXDEPS=fixDeps
 ifneq ($(INFORMATION_MESSAGE), )
 	@echo $(INFORMATION_MESSAGE)
 endif
-	${MAKE}  -f nbproject/Makefile-C18_18F87K22.mk dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+	${MAKE}  -f nbproject/Makefile-18f452.mk dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
-MP_PROCESSOR_OPTION=18F87K22
-MP_PROCESSOR_OPTION_LD=18f87k22
+MP_PROCESSOR_OPTION=18F452
+MP_PROCESSOR_OPTION_LD=18f452
 MP_LINKER_DEBUG_OPTION=  -u_DEBUGSTACK
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: assemble
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
+${OBJECTDIR}/int.o: int.asm  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/int.o.d 
+	@${RM} ${OBJECTDIR}/int.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/int.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION)  -l\"${OBJECTDIR}/int.lst\" -e\"${OBJECTDIR}/int.err\" $(ASM_OPTIONS)  -o\"${OBJECTDIR}/int.o\" \"int.asm\"
+	@${DEP_GEN} -d "${OBJECTDIR}/int.o"
+	@${FIXDEPS} "${OBJECTDIR}/int.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
+${OBJECTDIR}/kernel.o: kernel.asm  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/kernel.o.d 
+	@${RM} ${OBJECTDIR}/kernel.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/kernel.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -d__DEBUG -d__MPLAB_DEBUGGER_SIMULATOR=1 -q -p$(MP_PROCESSOR_OPTION)  -l\"${OBJECTDIR}/kernel.lst\" -e\"${OBJECTDIR}/kernel.err\" $(ASM_OPTIONS)  -o\"${OBJECTDIR}/kernel.o\" \"kernel.asm\"
+	@${DEP_GEN} -d "${OBJECTDIR}/kernel.o"
+	@${FIXDEPS} "${OBJECTDIR}/kernel.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
 else
+${OBJECTDIR}/int.o: int.asm  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/int.o.d 
+	@${RM} ${OBJECTDIR}/int.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/int.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION)  -l\"${OBJECTDIR}/int.lst\" -e\"${OBJECTDIR}/int.err\" $(ASM_OPTIONS)  -o\"${OBJECTDIR}/int.o\" \"int.asm\"
+	@${DEP_GEN} -d "${OBJECTDIR}/int.o"
+	@${FIXDEPS} "${OBJECTDIR}/int.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
+${OBJECTDIR}/kernel.o: kernel.asm  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/kernel.o.d 
+	@${RM} ${OBJECTDIR}/kernel.o 
+	@${FIXDEPS} dummy.d -e "${OBJECTDIR}/kernel.err" $(SILENT) -c ${MP_AS} $(MP_EXTRA_AS_PRE) -q -p$(MP_PROCESSOR_OPTION)  -l\"${OBJECTDIR}/kernel.lst\" -e\"${OBJECTDIR}/kernel.err\" $(ASM_OPTIONS)  -o\"${OBJECTDIR}/kernel.o\" \"kernel.asm\"
+	@${DEP_GEN} -d "${OBJECTDIR}/kernel.o"
+	@${FIXDEPS} "${OBJECTDIR}/kernel.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
 endif
 
 # ------------------------------------------------------------------------------------
@@ -99,7 +131,7 @@ ${OBJECTDIR}/alarm.o: alarm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/alarm.o.d 
 	@${RM} ${OBJECTDIR}/alarm.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/alarm.o   alarm.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/alarm.o   alarm.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/alarm.o 
 	@${FIXDEPS} "${OBJECTDIR}/alarm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -107,7 +139,7 @@ ${OBJECTDIR}/boot.o: boot.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/boot.o.d 
 	@${RM} ${OBJECTDIR}/boot.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/boot.o   boot.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/boot.o   boot.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/boot.o 
 	@${FIXDEPS} "${OBJECTDIR}/boot.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -115,7 +147,7 @@ ${OBJECTDIR}/even_man.o: even_man.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/even_man.o.d 
 	@${RM} ${OBJECTDIR}/even_man.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/even_man.o   even_man.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/even_man.o   even_man.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/even_man.o 
 	@${FIXDEPS} "${OBJECTDIR}/even_man.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -123,7 +155,7 @@ ${OBJECTDIR}/int_man.o: int_man.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/int_man.o.d 
 	@${RM} ${OBJECTDIR}/int_man.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/int_man.o   int_man.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/int_man.o   int_man.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/int_man.o 
 	@${FIXDEPS} "${OBJECTDIR}/int_man.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -131,7 +163,7 @@ ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/main.o.d 
 	@${RM} ${OBJECTDIR}/main.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/main.o   main.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/main.o   main.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/main.o 
 	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -139,7 +171,7 @@ ${OBJECTDIR}/pro_man.o: pro_man.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/pro_man.o.d 
 	@${RM} ${OBJECTDIR}/pro_man.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/pro_man.o   pro_man.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/pro_man.o   pro_man.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/pro_man.o 
 	@${FIXDEPS} "${OBJECTDIR}/pro_man.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -147,7 +179,7 @@ ${OBJECTDIR}/taskdesc.o: taskdesc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/taskdesc.o.d 
 	@${RM} ${OBJECTDIR}/taskdesc.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/taskdesc.o   taskdesc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/taskdesc.o   taskdesc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/taskdesc.o 
 	@${FIXDEPS} "${OBJECTDIR}/taskdesc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -155,7 +187,7 @@ ${OBJECTDIR}/timer.o: timer.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/timer.o.d 
 	@${RM} ${OBJECTDIR}/timer.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/timer.o   timer.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/timer.o   timer.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/timer.o 
 	@${FIXDEPS} "${OBJECTDIR}/timer.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -163,7 +195,7 @@ ${OBJECTDIR}/tsk_led.o: tsk_led.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/tsk_led.o.d 
 	@${RM} ${OBJECTDIR}/tsk_led.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/tsk_led.o   tsk_led.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/tsk_led.o   tsk_led.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led.o 
 	@${FIXDEPS} "${OBJECTDIR}/tsk_led.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -172,7 +204,7 @@ ${OBJECTDIR}/alarm.o: alarm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/alarm.o.d 
 	@${RM} ${OBJECTDIR}/alarm.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/alarm.o   alarm.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/alarm.o   alarm.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/alarm.o 
 	@${FIXDEPS} "${OBJECTDIR}/alarm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -180,7 +212,7 @@ ${OBJECTDIR}/boot.o: boot.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/boot.o.d 
 	@${RM} ${OBJECTDIR}/boot.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/boot.o   boot.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/boot.o   boot.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/boot.o 
 	@${FIXDEPS} "${OBJECTDIR}/boot.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -188,7 +220,7 @@ ${OBJECTDIR}/even_man.o: even_man.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/even_man.o.d 
 	@${RM} ${OBJECTDIR}/even_man.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/even_man.o   even_man.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/even_man.o   even_man.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/even_man.o 
 	@${FIXDEPS} "${OBJECTDIR}/even_man.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -196,7 +228,7 @@ ${OBJECTDIR}/int_man.o: int_man.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/int_man.o.d 
 	@${RM} ${OBJECTDIR}/int_man.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/int_man.o   int_man.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/int_man.o   int_man.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/int_man.o 
 	@${FIXDEPS} "${OBJECTDIR}/int_man.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -204,7 +236,7 @@ ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/main.o.d 
 	@${RM} ${OBJECTDIR}/main.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/main.o   main.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/main.o   main.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/main.o 
 	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -212,7 +244,7 @@ ${OBJECTDIR}/pro_man.o: pro_man.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/pro_man.o.d 
 	@${RM} ${OBJECTDIR}/pro_man.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/pro_man.o   pro_man.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/pro_man.o   pro_man.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/pro_man.o 
 	@${FIXDEPS} "${OBJECTDIR}/pro_man.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -220,7 +252,7 @@ ${OBJECTDIR}/taskdesc.o: taskdesc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/taskdesc.o.d 
 	@${RM} ${OBJECTDIR}/taskdesc.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/taskdesc.o   taskdesc.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/taskdesc.o   taskdesc.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/taskdesc.o 
 	@${FIXDEPS} "${OBJECTDIR}/taskdesc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -228,7 +260,7 @@ ${OBJECTDIR}/timer.o: timer.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/timer.o.d 
 	@${RM} ${OBJECTDIR}/timer.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/timer.o   timer.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/timer.o   timer.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/timer.o 
 	@${FIXDEPS} "${OBJECTDIR}/timer.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -236,7 +268,7 @@ ${OBJECTDIR}/tsk_led.o: tsk_led.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/tsk_led.o.d 
 	@${RM} ${OBJECTDIR}/tsk_led.o 
-	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms --extended -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/tsk_led.o   tsk_led.c 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/tsk_led.o   tsk_led.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led.o 
 	@${FIXDEPS} "${OBJECTDIR}/tsk_led.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
@@ -247,11 +279,11 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    c:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/18f452.lkr
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_LD} $(MP_EXTRA_LD_PRE) "c:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\18f452.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w -x -u_DEBUG -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map" -u_EXTENDEDMODE -z__MPLAB_BUILD=1  -u_CRUNTIME -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_ICD3=1 $(MP_LINKER_DEBUG_OPTION) -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
+	${MP_LD} $(MP_EXTRA_LD_PRE) "c:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\18f452.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w -x -u_DEBUG -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"  -z__MPLAB_BUILD=1  -u_CRUNTIME -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_SIMULATOR=1 $(MP_LINKER_DEBUG_OPTION) -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   c:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/18f452.lkr
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_LD} $(MP_EXTRA_LD_PRE) "c:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\18f452.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w  -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map" -u_EXTENDEDMODE -z__MPLAB_BUILD=1  -u_CRUNTIME -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
+	${MP_LD} $(MP_EXTRA_LD_PRE) "c:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\18f452.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w  -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"  -z__MPLAB_BUILD=1  -u_CRUNTIME -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
 endif
 
 
@@ -264,8 +296,8 @@ endif
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
-	${RM} -r build/C18_18F87K22
-	${RM} -r dist/C18_18F87K22
+	${RM} -r build/18f452
+	${RM} -r dist/18f452
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl

@@ -1,0 +1,13 @@
+>
+               PICOS18 release 1.11
+
+PICOS18 - Real-time kernel for PIC18 family
+
+
+PICOS18 developers :
+--------------------
+
+Xavier Montagne  <xavier.montagne@wanadoo.fr>
+Paul   Beam
+Dan    Devine
+

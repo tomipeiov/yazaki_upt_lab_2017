@@ -1,0 +1,35 @@
+>
+               PICOS18 release 1.11
+
+PICOS18 - Real-time kernel for PIC18 family
+
+
+INSTALLING PICOS18 on Windows:
+------------------------------
+ - download the application directly from the web site.
+ 
+ - unzip the zip file and let all the file of the project in the 
+   same directory.
+
+
+INSTALLING PICOS18 on Linux:
+----------------------------
+ - not yet available...
+
+
+COMPILING PICOS18 on Windows:
+-----------------------------
+
+ - make sure you have MPLAB 6.10. There is no warranty with other
+   version of MPLAB. Please inform major PICOS18 developer if you 
+   succeed to run PICOS18 properly on a different release of MPLAB.
+
+ - make sure you have MPLAB C18, PICmicro 18Cxx demo C compiler v2.00.
+   PICOS18 has been optimized for this compiler, and not any different 
+   release of this compiler has been tested.
+   Please inform major PICOS18 developers if you succeed to run PICOS18
+   properly on a different release of MPLAB C18.
+
+
+
+

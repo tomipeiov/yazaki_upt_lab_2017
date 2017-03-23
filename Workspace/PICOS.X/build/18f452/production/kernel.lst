@@ -1,0 +1,1579 @@
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;/**********************************************************************/
+                      00002 ;/*                                                                    */
+                      00003 ;/* File name: kernel.asm                                              */
+                      00004 ;/*                                                                    */
+                      00005 ;/* Since:     2002/09/09                                              */
+                      00006 ;/*                                                                    */
+                      00007 ;/* Version:   1.11                                                    */
+                      00008 ;/*                                                                    */
+                      00009 ;/* Author:    MONTAGNE Xavier [XM] {link xavier.montagne@wanadoo.fr}  */
+                      00010 ;/*                                                                    */
+                      00011 ;/* Purpose:   Kernel core code.                                       */
+                      00012 ;/*                                                                    */
+                      00013 ;/* Distribution: This file is part of PICOS18                         */
+                      00014 ;/*               PICOS18 is free software; you can redistribute it    */
+                      00015 ;/*               and/or modify it under the terms of the GNU General  */
+                      00016 ;/*               Public License as published by the Free Software     */
+                      00017 ;/*               Foundation; either version 2, or (at your option)    */
+                      00018 ;/*               any later version.                                   */
+                      00019 ;/*                                                                    */
+                      00020 ;/*               PICOS18 is distributed in the hope that it will be   */
+                      00021 ;/*               useful, but WITHOUT ANY WARRANTY; without even the   */
+                      00022 ;/*               implied warranty of MERCHANTABILITY or FITNESS FOR A */
+                      00023 ;/*               PARTICULAR PURPOSE.  See the GNU General Public      */
+                      00024 ;/*               License for more details.                            */
+                      00025 ;/*                                                                    */
+                      00026 ;/*               You should have received a copy of the GNU General   */
+                      00027 ;/*               Public License along with gpsim; see the file        */
+                      00028 ;/*               COPYING.txt. If not, write to the Free Software      */
+                      00029 ;/*               Foundation, 59 Temple Place - Suite 330,             */
+                      00030 ;/*               Boston, MA 02111-1307, USA.                          */
+                      00031 ;/*                                                                    */
+                      00032 ;/* History:                                                           */
+                      00033 ;/*   2002/09/09  [XM] Create this file.                               */
+                      00034 ;/*   2002/11/11  [XM] Because kernel and services are not.            */
+                      00035 ;/*                    interruptible, add calls to CGI & SGI macros.   */
+                      00036 ;/*   2003/01/10  [XM] Remove the LIST directive.                      */
+                      00037 ;/*                    Remove the #include directive.                  */
+                      00038 ;/*   2003/01/26  [XM] Replace fixed SECTIONS by relocatable SECTIONS. */
+                      00039 ;/*   2003/02/02  [XM] Modify the call_from update (add BSR selection).*/
+                      00040 ;/*   2003/02/12  [XM] Modify idle, _save_ctx and task jumping code    */
+                      00041 ;/*                    to allow services call from ISR.                */
+                      00042 ;/*   2003/05/10  [XM] Added STATUS_save and BSR_save variables.       */
+                      00043 ;/*   2003/08/03  [XM] Added "device.inc" include.                     */
+                      00044 ;/*                                                                    */
+                      00045 ;/**********************************************************************/
+                      00046 
+                      00047 
+                      00048         #include "device.inc"
+                      00001 ;/**********************************************************************/
+                      00002 ;/*                                                                    */
+                      00003 ;/* File name: device.inc                                              */
+                      00004 ;/*                                                                    */
+                      00005 ;/* Since:     2003/08/03                                              */
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00006 ;/*                                                                    */
+                      00007 ;/* Version:   1.11                                                    */
+                      00008 ;/*                                                                    */
+                      00009 ;/* Author:    MONTAGNE Xavier [XM] {link xavier.montagne@wanadoo.fr}  */
+                      00010 ;/*            DEVINE Dan      [DD]                                    */
+                      00011 ;/*                                                                    */
+                      00012 ;/* Purpose:   Specify the PIC device header file.                     */
+                      00013 ;/*                                                                    */
+                      00014 ;/* Distribution: This file is part of PICOS18                         */
+                      00015 ;/*               PICOS18 is free software; you can redistribute it    */
+                      00016 ;/*               and/or modify it under the terms of the GNU General  */
+                      00017 ;/*               Public License as published by the Free Software     */
+                      00018 ;/*               Foundation; either version 2, or (at your option)    */
+                      00019 ;/*               any later version.                                   */
+                      00020 ;/*                                                                    */
+                      00021 ;/*               PICOS18 is distributed in the hope that it will be   */
+                      00022 ;/*               useful, but WITHOUT ANY WARRANTY; without even the   */
+                      00023 ;/*               implied warranty of MERCHANTABILITY or FITNESS FOR A */
+                      00024 ;/*               PARTICULAR PURPOSE.  See the GNU General Public      */
+                      00025 ;/*               License for more details.                            */
+                      00026 ;/*                                                                    */
+                      00027 ;/*               You should have received a copy of the GNU General   */
+                      00028 ;/*               Public License along with gpsim; see the file        */
+                      00029 ;/*               COPYING.txt. If not, write to the Free Software      */
+                      00030 ;/*               Foundation, 59 Temple Place - Suite 330,             */
+                      00031 ;/*               Boston, MA 02111-1307, USA.                          */
+                      00032 ;/*                                                                    */
+                      00033 ;/* History:                                                           */
+                      00034 ;/*   2003/08/03  [XM] Original idea of DD.                            */
+                      00035 ;/*                                                                    */
+                      00036 ;/**********************************************************************/
+                      00037 
+                      00038 #ifndef _DEVICE_INC
+                      00039 #define _DEVICE_INC
+                      00040 
+                      00041 #include <p18f452.inc>         ; processor specific variable definitions
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC18F452 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2013 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      01254         LIST
+                      00042 
+                      00043 
+                      00044 ;/* Please add here anything related to the specific target :          */
+                      00045 
+                      00046 ;/* Should be equal to .tempdata + MATH_DATA size (from map file)      */
+                      00047 #define STACK_SIZE             0x10
+                      00048 
+                      00049 #endif ;/* _DEVICE_INC */
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00049 
+                      00050 ;/**********************************************************************
+                      00051 ; * Kernel RAM area.
+                      00052 ; **********************************************************************/
+                      00053 KERNEL_RAM    UDATA
+000000                00054 id_tsk_run    RES     1                       ; ID of the current task
+000001                00055 temp          RES     1
+000002                00056 id            RES     1
+000003                00057 stack_size    RES     1
+000004                00058 temp2         RES     1
+000005                00059 permut        RES     1
+000006                00060 call_from     RES     1                       ; 0x 0 0 0 0 0 INT Kernel Task
+                      00061 
+000007                00062 STATUS_save   RES     1
+000008                00063 BSR_save      RES     1
+                      00064 
+                      00065 ;/**********************************************************************
+                      00066 ; * Share global variables with other sections.
+                      00067 ; **********************************************************************/
+  0000                00068         GLOBAL          call_from
+  0000                00069         GLOBAL          id_tsk_run
+  0000                00070         GLOBAL          STATUS_save
+  0000                00071         GLOBAL      BSR_save    
+                      00072 
+                      00073 ;/**********************************************************************
+                      00074 ; * Shared variables defined in other section.
+                      00075 ; **********************************************************************/
+  0000                00076         extern tsk_1_stack
+  0000                00077         extern tsk_2_stack
+  0000                00078         extern tsk_3_stack
+  0000                00079         extern tsk_4_stack
+  0000                00080         extern tsk_5_stack
+  0000                00081         extern tsk_6_stack
+  0000                00082         extern tsk_7_stack
+  0000                00083         extern tsk_8_stack
+  0000                00084         extern tsk_1_state
+  0000                00085         extern tsk_2_state
+  0000                00086         extern tsk_3_state
+  0000                00087         extern tsk_4_state
+  0000                00088         extern tsk_5_state
+  0000                00089         extern tsk_6_state
+  0000                00090         extern tsk_7_state
+  0000                00091         extern tsk_8_state
+                      00092 
+                      00093 ;/**********************************************************************
+                      00094 ; * Hook routines activated by the -D compiler option.
+                      00095 ; **********************************************************************/
+                      00096 #IFDEF STARTUPHOOK
+                      00097         extern StartupHook
+                      00098 #ENDIF
+                      00099 
+                      00100 #IFDEF PRETASKHOOK
+                      00101         extern PreTaskHook
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00102 #ENDIF
+                      00103 
+                      00104 #IFDEF POSTTASKHOOK
+                      00105         extern PostTaskHook
+                      00106 #ENDIF
+                      00107 
+                      00108 
+                      00109 ;/**********************************************************************
+                      00110 ; * ------------------------- KERNEL INIT ------------------------------
+                      00111 ; *
+                      00112 ; * Here is the init phase of the kernel, it means the main access to 
+                      00113 ; * the kernel after StartOS call.
+                      00114 ; *
+                      00115 ; **********************************************************************/
+                      00116 KERNEL_ROM      CODE
+000000                00117 _kernel         
+  0000                00118                 GLOBAL  _kernel                           ; Beginning of kernel code
+000000 6AEA           00119                 clrf    FSR0H
+000002 6AE9           00120                 clrf    FSR0L
+000004 6AE1           00121                 clrf    FSR1L
+000006 6AE2           00122                 clrf    FSR1H
+000008 6AF8           00123                 clrf    TBLPTRU
+00000A 6AFA           00124                 clrf    PCLATH
+00000C 0EAF           00125                 movlw   0xAF
+                      00126                 
+00000E                00127 _k_init_RAM                                           ; Clear the first RAM bank
+00000E 6AEE           00128                 clrf    POSTINC0
+000010 62E9           00129                 cpfseq  FSR0L
+000012 D???           00130                 bra     _k_init_RAM
+                      00131 
+000014 6AEA           00132                 clrf    FSR0H
+000016 6AE9           00133                 clrf    FSR0L
+000018 6AFC           00134                 clrf    STKPTR
+00001A 0E1E           00135                 movlw   0x1E
+                      00136                 
+00001C                00137 _k_init_STK                                       ; Clear the hardware stack
+00001C 2AFC           00138                 incf    STKPTR
+00001E 6AFF           00139                 clrf    TOSU
+000020 6AFE           00140                 clrf    TOSH
+000022 6AFD           00141                 clrf    TOSL
+000024 62FC           00142                 cpfseq  STKPTR
+000026 D???           00143                 bra     _k_init_STK
+000028 6AFC           00144                 clrf    STKPTR
+00002A 2AFC           00145                 incf    STKPTR
+                      00146 
+00002C 0EC5           00147                 movlw   0xc5                              ; Prescaler timer0 = 1/8
+00002E 6ED5           00148                 movwf   T0CON
+000030 6AF2           00149                 clrf    INTCON1
+000032 6AF1           00150                 clrf    INTCON2
+000034 6A9D           00151                 clrf    PIE1
+000036 6AA0           00152                 clrf    PIE2
+000038 6AF2           00153                 clrf    INTCON
+00003A 8AF2           00154                 bsf     INTCON, 5
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00003C 8CF2           00155                 bsf         INTCON, 6
+                      00156 
+00003E 6AD6           00157                 clrf    TMR0L
+000040 6AD7           00158                 clrf    TMR0H
+                      00159 
+000042 D???           00160                 bra     _parser
+                      00161 
+                      00162 
+                      00163 ;/**********************************************************************
+                      00164 ; * ----------------------- KERNEL TASK PARSER -------------------------
+                      00165 ; *
+                      00166 ; * Here is the init phase of the kernel, it means the main access to 
+                      00167 ; * the kernel after StartOS call.
+                      00168 ; *
+                      00169 ; **********************************************************************/
+000044                00170 _parser
+000044 0100           00171         movlb   0
+000046 6AFC           00172                 clrf    STKPTR                            ; Init
+000048 2AFC           00173                 incf    STKPTR
+00004A 6A??           00174                 clrf    temp
+00004C 6A??           00175                 clrf    permut
+00004E 2A??           00176                 incf    permut
+000050 6AEA           00177                 clrf    FSR0H                             ; 
+000052 0E??           00178                 movlw   tsk_1_stack                       ; tsk_1_stack is pointed by FSR0
+000054 6EE9           00179                 movwf   FSR0L                             ;
+                      00180 
+000056 0E00           00181                 movlw   0x00                              ; The Task Descriptor is
+000058 6EF8           00182                 movwf   TBLPTRU                           ; located at the adress 
+00005A 6EF7           00183                 movwf   TBLPTRH                           ; 0x000050
+00005C 0E50           00184                 movlw   0x50
+00005E 6EF6           00185                 movwf   TBLPTRL
+                      00186 
+                      00187 ; /* --------- TASKDESC.C CONTENT PARSING ---------- */
+000060                00188 _parser_init
+000060 0009           00189                 TBLRD   *+                                ; First access the priority
+000062 50F5           00190                 movf    TABLAT, w                         ; and parse upto the end
+000064 B4D8           00191                 btfsc   STATUS, Z                         ; (priority = 0)
+000066 D???           00192                 bra         _parser_update
+                      00193 
+000068 CFF5 FFEF      00194                 movff   TABLAT, INDF0                     ; Store the priority into
+00006C 3AEF           00195                 swapf   INDF0                             ; RAM_DESC task area
+00006E 46EF           00196                 rlncf   INDF0                             ;
+000070 0009           00197                 TBLRD   *+                                ; Store the stack size
+000072 50F5           00198                 movf    TABLAT, w
+000074 6E??           00199                 movwf   stack_size
+000076 0009           00200                 TBLRD   *+                                 ; Store low stack adr in TOSL
+000078 50F5           00201                 movf    TABLAT, w       
+00007A 6EFD           00202                 movwf   TOSL
+00007C 0009           00203                 TBLRD   *+                                ; Store middle stack adr in TOSH
+00007E 50F5           00204                 movf    TABLAT, w
+000080 6EFE           00205                 movwf   TOSH
+000082 0E00           00206                 movlw   0                                 ; Store 0 in TOSU
+000084 6EFF           00207                 movwf   TOSU
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000086 50FC           00208                 movf    STKPTR, w                         ; Store Stack pointer adr in
+000088 26EF           00209                 addwf   INDF0, 1                          ; RAM_DESC task area
+00008A 50??           00210                 movf    stack_size, w                      
+00008C 26FC           00211                 addwf   STKPTR, 1                         ; Shift STRPTR for next process
+00008E 0009           00212                 TBLRD   *+                                ; Store the initial state
+000090 86E9           00213                 bsf     FSR0L, 3                          ; Shift to high RAM_DESC area
+000092 50F5           00214                 movf    TABLAT, w
+000094 26EF           00215                 addwf   INDF0, 1
+000096 0009           00216                 TBLRD   *+                                ; Store the task ID
+000098 3AF5           00217                 swapf   TABLAT
+00009A 50F5           00218                 movf    TABLAT, w
+00009C 26EF           00219                 addwf   INDF0, 1
+00009E 96E9           00220                 bcf         FSR0L, 3                          ; Shift to low RAM_DESC area
+0000A0 2AE9           00221                 incf    FSR0L
+0000A2 0009           00222                 TBLRD   *+                                ; Don't care the context adress
+0000A4 0009           00223                 TBLRD   *+ 
+0000A6 D???           00224                 bra     _parser_init                      ; while another task exists
+                      00225 
+                      00226 
+                      00227 ; /* ----- REARRANGE TASK ORDER FCT TO PRIORITY ---- */
+0000A8                00228 _parser_update
+0000A8 0E??           00229                 movlw   tsk_1_stack
+0000AA 6EE9           00230                 movwf   FSR0L
+0000AC 50??           00231                 movf    permut, w                         ; update finished ?
+0000AE B4D8           00232                 btfsc   STATUS, Z
+0000B0 D???           00233                 bra     _isHook                           ; for STARTUPHOOK only
+0000B2 6A??           00234                 clrf    permut
+                      00235 
+0000B4                00236 _parser_update_loop     
+0000B4 0EF0           00237                 movlw   0xF0                              ; 
+0000B6 14EF           00238                 andwf   INDF0, w
+0000B8 6E??           00239                 movwf   temp                              ; store the priority of a task
+0000BA CFEF F???      00240                 movff   INDF0, temp2                      ; store prio + ID of the task
+0000BE 0EF0           00241                 movlw   0xF0
+0000C0 14EC           00242                 andwf   PREINC0, w                        ; compare with the next task
+0000C2 62??           00243                 cpfseq  temp
+0000C4 D???           00244                 bra     _parser_update_diff               ; task swapping if necessary
+0000C6 D???           00245                 bra         _parser_update_rr                 ; if equal => round robin
+                      00246 
+0000C8                00247 _parser_update_diff
+0000C8 60??           00248                 cpfslt  temp
+0000CA D???           00249                 bra     _parser_update_swap               ; task swapping
+0000CC 64??           00250                 cpfsgt  temp
+0000CE D???           00251                 bra         _parser_update_loop               ; nothing to do 
+                      00252 
+0000D0                00253 _parser_update_rr
+0000D0 86E9           00254                 bsf     FSR0L, 3
+0000D2 06E9           00255                 decf    FSR0L
+0000D4 86EF           00256                 bsf         INDF0, 3                          ; task scheduled
+0000D6 2AE9           00257                 incf    FSR0L
+0000D8 86EF           00258                 bsf     INDF0, 3                          ; task scheduled
+0000DA 96E9           00259                 bcf     FSR0L, 3
+0000DC D???           00260                 bra     _parser_update_loop
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00261 
+0000DE                00262 _parser_update_swap
+0000DE 50EF           00263                 movf    INDF0, w                          ; the priority last task is 0
+0000E0 B4D8           00264                 btfsc   STATUS, Z                         ; is swap finished ?
+0000E2 D???           00265                 bra     _parser_update
+                      00266 
+0000E4 06E9           00267                 decf    FSR0L                             ; WREG = higher priority task
+0000E6 6EEF           00268                 movwf   INDF0
+0000E8 2AE9           00269                 incf    FSR0L
+0000EA C??? FFEF      00270                 movff   temp2, INDF0                      ; temp2 = lowest priority task
+                      00271 
+0000EE 86E9           00272                 bsf     FSR0L, 3                          ; swap the low part of the 
+0000F0 CFEF F???      00273                 movff   INDF0, temp2                      ; RAM_DESC task area
+0000F4 06E9           00274                 decf    FSR0L
+0000F6 50EF           00275                 movf    INDF0, w
+0000F8 C??? FFEF      00276                 movff   temp2, INDF0
+0000FC 2AE9           00277                 incf    FSR0L
+0000FE 6EEF           00278                 movwf   INDF0
+000100 96E9           00279                 bcf     FSR0L, 3
+000102 2A??           00280                 incf    permut
+000104 D???           00281                 bra     _parser_update  
+                      00282                 
+000106                00283 _isHook                                          ; Hook kernel service routine
+                      00284         #IFDEF  STARTUPHOOK
+                      00285                 call    StartupHook
+                      00286         #ENDIF
+000106 D???           00287                 bra     _sched
+                      00288 
+                      00289 
+                      00290 ;/**********************************************************************
+                      00291 ; * --------------------- KERNEL TASK SCHEDULER ------------------------
+                      00292 ; *
+                      00293 ; * The scheduler manage the task switching during application running.
+                      00294 ; *
+                      00295 ; **********************************************************************/
+000108                00296 _sched
+  0000                00297                 GLOBAL  _sched
+                      00298         #IFDEF POSTTASKHOOK
+                      00299                 call    PostTaskHook
+                      00300         #ENDIF
+000108 6AEA           00301                 clrf    FSR0H
+00010A 0E??           00302                 movlw   tsk_1_state-1
+00010C 6EE9           00303                 movwf   FSR0L
+                      00304         
+00010E                00305 _sched_clr_run
+00010E 2AE9           00306                 incf    FSR0L                             ; tsk_1_state pointed by FSR0
+000110 0E??           00307                 movlw   tsk_8_state+1
+000112 5CE9           00308                 subwf   FSR0L, w
+000114 E0??           00309                 bz      _sched_clr_end                    ; if all RUNNING bits cleared
+000116 A2EF           00310                 btfss   INDF0, 1                          ; skip if task is running 
+000118 D???           00311                 bra     _sched_clr_run                    ; running task is not found
+00011A 92EF           00312                 bcf     INDF0, 1                          ; task is no more running
+                      00313                  
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00011C                00314 _sched_clr_end
+00011C 6A??           00315                 clrf    id_tsk_run                        ; no more task in running state
+00011E 0E??           00316                 movlw   tsk_1_state-1
+000120 6EE9           00317                 movwf   FSR0L
+                      00318                         
+000122                00319 _sched_exec_tsk
+000122 2AE9           00320                 incf    FSR0L
+000124 A0EF           00321                 btfss   INDF0, 0                          ; skip if task READY
+000126 D???           00322                 bra     _sched_jmp_next    
+000128 B4EF           00323                 btfsc   INDF0, 2                          ; skip if task not STOPPED
+00012A D???           00324                 bra     _sched_jmp_next
+                      00325                 
+00012C 0100           00326                 movlb   0
+00012E 82EF           00327                 bsf     INDF0, 1                          ; task is RUNNING now !
+000130 0EF0           00328                 movlw   0xF0                              ; save ID task in id_tsk_running
+000132 14EF           00329                 andwf   INDF0, w
+000134 6E??           00330                 movwf   id_tsk_run
+000136 3A??           00331                 swapf   id_tsk_run      
+                      00332 
+                      00333         #IFDEF  PRETASKHOOK                           ; Hook kernel service routine
+                      00334                 call    PreTaskHook
+                      00335         #ENDIF
+                      00336 
+000138 96E9           00337                 bcf     FSR0L, 3                          ; Look up low RAM_DESC task
+00013A 0E1F           00338                 movlw   0x1F                              ; load stack adr from task desc
+00013C 14EF           00339                 andwf   INDF0, w
+00013E 6EFC           00340                 movwf   STKPTR                            ; set stack adr in STRPTR
+                      00341 
+000140 0E00           00342                 movlw   0x00                              ; ROM_DESC at 0x000050
+000142 6EF8           00343                 movwf   TBLPTRU
+000144 6EF7           00344                 movwf   TBLPTRH
+000146 0E55           00345                 movlw   0x55
+000148 6EF6           00346                 movwf   TBLPTRL
+                      00347 
+                      00348 ;/**********************************************************************
+                      00349 ; * ------------------------- RESTORE CONTEXT --------------------------
+                      00350 ; *
+                      00351 ; * Copy the content of the context (task ram area) into Special File 
+                      00352 ; * Registers.
+                      00353 ; *
+                      00354 ; **********************************************************************/
+00014A                00355 restore_ctx     
+00014A 50??           00356                 movf    id_tsk_run, w
+00014C 0009           00357                 TBLRD   *+                                ; find the task id from ROM_DESC
+00014E 62F5           00358                 cpfseq  TABLAT
+000150 D???           00359                 bra     restore_next
+000152 D???           00360                 bra     restore_adr
+                      00361                 
+000154                00362 restore_next
+000154 0E07           00363                 movlw   7
+000156 26F6           00364                 addwf   TBLPTRL, 1                        ; Next task located at @+7 bytes 
+000158 D???           00365                 bra     restore_ctx
+                      00366 
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00015A                00367 restore_adr     
+00015A 0009           00368                 TBLRD   *+                                ; access to the ctx adress
+00015C CFF5 FFE9      00369                 movff   TABLAT, FSR0L
+000160 0009           00370                 TBLRD   *+
+000162 CFF5 FFEA      00371                 movff   TABLAT, FSR0H
+                      00372 
+                      00373 ; /* ----------- RESTORE THE STACK BUFFER ----------- */
+000166                00374 restore_stack   
+000166 0E0B           00375                 movlw   0x0B
+000168 26E9           00376                 addwf   FSR0L
+00016A 0E00           00377                 movlw   0x00
+00016C 22EA           00378                 addwfc  FSR0H
+00016E 6AE1           00379                 clrf    FSR1L
+000170 6AE2           00380                 clrf    FSR1H
+000172 0E10           00381                 movlw   STACK_SIZE                        ; STACK_SIZE
+                      00382 
+000174                00383 restore_stack_next
+000174 CFEE FFE6      00384                 movff   POSTINC0, POSTINC1                ; Copy task ram area dedicated
+000178 06E8           00385                 decf    WREG                              ; STACK_SIZE
+00017A E1??           00386                 bnz     restore_stack_next
+                      00387                 
+00017C 000A           00388                 TBLRD   *-
+00017E 000A           00389                 TBLRD   *-
+000180 0009           00390                 TBLRD   *+
+000182 CFF5 FFE9      00391                 movff   TABLAT, FSR0L
+000186 0008           00392                 TBLRD   *
+000188 CFF5 FFEA      00393                 movff   TABLAT, FSR0H
+                      00394 
+00018C 0E0B           00395                 movlw   0x0B                              ; we start to restore SFR
+00018E 26E9           00396                 addwf   FSR0L   
+000190 0E00           00397                 movlw   0x00
+000192 22EA           00398                 addwfc  FSR0H     
+000194 06E9           00399                 decf    FSR0L
+000196 CFED FFF3      00400                 movff   POSTDEC0, PRODL
+00019A CFED FFF4      00401                 movff   POSTDEC0, PRODH
+00019E CFED FFD9      00402                 movff   POSTDEC0, FSR2L
+0001A2 CFED FFDA      00403                 movff   POSTDEC0, FSR2H
+0001A6 CFED FFE1      00404                 movff   POSTDEC0, FSR1L
+0001AA CFED FFE2      00405                 movff   POSTDEC0, FSR1H
+0001AE CFED F???      00406                 movff   POSTDEC0, temp
+0001B2 CFED F???      00407                 movff   POSTDEC0, temp2
+0001B6 CFED F???      00408                 movff   POSTDEC0, permut
+0001BA CFED FFE0      00409                 movff   POSTDEC0, BSR
+0001BE CFEF F???      00410                 movff   INDF0, id
+                      00411 
+0001C2 C??? FFE9      00412                 movff   temp, FSR0L
+0001C6 C??? FFEA      00413                 movff   temp2, FSR0H
+0001CA C??? FFE8      00414                 movff   id, WREG
+0001CE C??? FFD8      00415                 movff   permut, STATUS
+                      00416                 
+0001D2 CFE0 F???      00417                 movff   BSR, temp
+                      00418                 
+0001D6 0100           00419                 movlb   0
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0001D8 9300           00420                 bcf     call_from, 1, 1
+0001DA 9100           00421                 bcf     call_from, 0, 1
+0001DC C??? FFE0      00422                 movff   temp, BSR
+0001E0 C??? FFE8      00423                 movff   id, WREG                
+                      00424 
+0001E4 0010           00425                 retfie                                    ; JUMP TO THE NEXT RUNNING TASK !!!
+                      00426 
+                      00427 
+0001E6                00428 _sched_clr_next
+0001E6 0EFF           00429                 movlw   0xFF                              ; Limite de RAM_DESC
+0001E8 5CE9           00430                 subwf   FSR0L, w
+0001EA E1??           00431                 bnz             _sched_clr_run 
+0001EC 0E??           00432                 movlw   tsk_1_state-1 
+0001EE 6EE9           00433                 movwf   FSR0L
+0001F0 D???           00434                 bra             _sched_clr_run
+                      00435 
+0001F2                00436 _sched_jmp_next
+0001F2 0E??           00437                 movlw   tsk_8_state                       ; Look up the next task up to the end
+0001F4 5CE9           00438                 subwf   FSR0L, w
+0001F6 E1??           00439                 bnz             _sched_exec_tsk
+                      00440                                 
+0001F8 0100           00441                 movlb   0
+0001FA 9300           00442                 bcf     call_from, 1, 1
+0001FC 8100           00443                 bsf     call_from, 0, 1
+0001FE 8EF2           00444                 bsf             INTCON, 7                         ; General Interrupt Enable ON
+                      00445                 
+000200                00446 _while
+000200 8100           00447                 bsf     call_from, 0, 1
+000202 D???           00448                 bra             _while                            ; No task in RUNNING state
+                      00449 
+                      00450 
+                      00451 ;/**********************************************************************
+                      00452 ; * ----------------- SCHEDULER FOR ROUND ROBIN ONLY -------------------
+                      00453 ; *
+                      00454 ; * Futur use : round robin algorithm in case of tasks with same priority.
+                      00455 ; * Not mandatory by OSEK standard.
+                      00456 ; *
+                      00457 ; **********************************************************************/
+000204                00458 _scheduler      
+  0000                00459                 GLOBAL  _scheduler
+000204 9AF2           00460                 bcf             INTCON, 5                         ; Disable the Timer0 INT
+000206 94F2           00461                 bcf             INTCON, 2
+000208 9EF2           00462                 bcf             INTCON, 7
+00020A 6AEA           00463                 clrf    FSR0H                             ; tsk_1_state pointed by FSR0
+00020C 0E??           00464                 movlw   tsk_1_state-1
+00020E 6EE9           00465                 movwf   FSR0L
+                      00466 
+000210                00467 _scheduler_jmp
+000210 2AE9           00468                 incf    FSR0L
+000212 50EF           00469                 movf    INDF0, w          
+000214 A6EF           00470                 btfss   INDF0, 3                          ; skip if task scheduled
+000216 D???           00471                 bra     _scheduler_next
+000218 A2EF           00472                 btfss   INDF0, 1                          ; skip if task is running
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00021A D???           00473                 bra             _scheduler_next
+00021C 6E??           00474                 movwf   temp                              ; tsk Sch in temp
+00021E 96E9           00475                 bcf             FSR0L, 3
+000220 50EF           00476                 movf    INDF0, w
+000222 6E??           00477                 movwf   temp2                             ; tsk_desc in temp2
+000224 86E9           00478                 bsf             FSR0L, 3
+                      00479 
+000226                00480 _scheduler_lp   
+000226 2AE9           00481                 incf    FSR0L
+000228 50EF           00482                 movf    INDF0, w
+00022A A6EF           00483                 btfss   INDF0, 3                          ; skip if task is scheduled
+00022C D???           00484                 bra     _scheduler_ordo
+00022E 06E9           00485                 decf    FSR0L                             ; shift the other sch task
+000230 6EEF           00486                 movwf   INDF0
+000232 2AE9           00487                 incf    FSR0L
+000234 96E9           00488                 bcf             FSR0L, 3                          ; shift the other sch_desc task
+000236 50EF           00489                 movf    INDF0, w
+000238 06E9           00490                 decf    FSR0L
+00023A 6EEF           00491                 movwf   INDF0
+00023C 2AE9           00492                 incf    FSR0L
+00023E 86E9           00493                 bsf             FSR0L, 3
+000240 D???           00494                 bra     _scheduler_lp
+                      00495 
+000242                00496 _scheduler_ordo 
+000242 06E9           00497                 decf    FSR0L
+000244 50??           00498                 movf    temp, w
+000246 6EEF           00499                 movwf   INDF0
+000248 96E9           00500                 bcf             FSR0L, 3
+00024A 50??           00501                 movf    temp2, w
+00024C 6EEF           00502                 movwf   INDF0
+                      00503 
+00024E 6AD6           00504                 clrf    TMR0L 
+000250 8AF2           00505                 bsf             INTCON, 5                          ; Enable the TImer0 INT
+000252 94F2           00506                 bcf             INTCON, 2
+000254 8EF2           00507                 bsf             INTCON, 7
+000256 D???           00508                 bra             _sched
+                      00509 
+000258                00510 _scheduler_next
+000258 0E??           00511                 movlw   tsk_1_state
+00025A 5CE9           00512                 subwf   FSR0L, w
+00025C E1??           00513                 bnz             _scheduler_jmp
+00025E 0E??           00514                 movlw   tsk_1_state-1
+000260 6EE9           00515                 movwf   FSR0L
+000262 D???           00516                 bra             _scheduler_jmp
+                      00517 
+                      00518 ;/**********************************************************************
+                      00519 ; * ----------------------- FOR BASIC TASK ONLY ------------------------
+                      00520 ; *
+                      00521 ; * After terminating a task, we loose the start adress of the task, 
+                      00522 ; * first located in the first place
+                      00523 ; * of the stack.
+                      00524 ; *
+                      00525 ; **********************************************************************/
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+000264                00526 _restore_start_adr
+  0000                00527                 GLOBAL  _restore_start_adr
+000264 0E00           00528                 movlw   0x00                              ; ROM_DESC en 0x000050
+000266 6EF8           00529                 movwf   TBLPTRU
+000268 6EF7           00530                 movwf   TBLPTRH
+00026A 0E55           00531                 movlw   0x55                              ; offset 5 for start adress
+00026C 6EF6           00532                 movwf   TBLPTRL
+                      00533                 
+00026E 0100           00534                 movlb   0
+                      00535 
+000270                00536 _restore_find   
+000270 50??           00537                 movf    id_tsk_run, w                     ; look for the task area in ROM_DESC
+000272 000A           00538                 TBLRD   *-                               
+000274 62F5           00539                 cpfseq  TABLAT 
+000276 D???           00540                 bra     _restore_next                     ; continu to search
+000278 D???           00541                 bra     _restore_read                     ; task ID found
+                      00542                 
+00027A                00543 _restore_next   
+00027A 0E09           00544                 movlw   9                                 ; offset 9 for next task ID
+00027C 26F6           00545                 addwf   TBLPTRL, 1
+00027E D???           00546                 bra             _restore_find
+                      00547 
+000280                00548 _restore_read   
+000280 000A           00549                 TBLRD   *-                                ; Access to the start adress            
+000282 000A           00550                 TBLRD   *-      
+000284 6AFF           00551                 clrf    TOSU
+000286 50F5           00552                 movf    TABLAT, w
+000288 6EFE           00553                 movwf   TOSH
+00028A 0009           00554                 TBLRD   *+
+00028C 50F5           00555                 movf    TABLAT, w
+00028E 6EFD           00556                 movwf   TOSL                              ; Set the value into STKPTR
+000290 EF?? F???      00557                 goto    _sched                            ; Determine the next RUNNING task
+                      00558 
+                      00559 
+                      00560 ;/**********************************************************************
+                      00561 ; * -------------------------- STORE CONTEXT ---------------------------
+                      00562 ; *
+                      00563 ; * Copy the content of Special File Registers into the context 
+                      00564 ; * (task ram area).
+                      00565 ; *
+                      00566 ; **********************************************************************/
+000294                00567 _save_ctx
+  0000                00568                 GLOBAL  _save_ctx
+                      00569                 
+000294 0100           00570                 movlb   0               
+000296 A2??           00571                 btfss   call_from, 1                      ; skip if call from task level
+000298 0012           00572                 return
+00029A B0??           00573                 btfsc   call_from, 0
+00029C 0012           00574                 return
+                      00575 
+00029E CFE8 F???      00576                 movff   WREG, id                          ; 
+0002A2 CFEA F???      00577                 movff   FSR0H, temp2                      ; but id is really the ID of task
+0002A6 CFE9 F???      00578                 movff   FSR0L, temp
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00579 
+0002AA 6AE0           00580                 clrf    BSR
+0002AC 6AE8           00581                 clrf    WREG                              ; immediat return if
+0002AE 6500           00582                 cpfsgt  id_tsk_run, 1                     ; no task in READY state
+0002B0 0012           00583                 return
+                      00584 
+0002B2 0E00           00585                 movlw   0x00                              ; ROM_DESC at 0x000050
+0002B4 6EF8           00586                 movwf   TBLPTRU
+0002B6 6EF7           00587                 movwf   TBLPTRH
+0002B8 0E55           00588                 movlw   0x55                              ; offset 5 for start adress
+0002BA 6EF6           00589                 movwf   TBLPTRL
+                      00590                 
+0002BC                00591 store_ctx       
+0002BC 5100           00592                 movf    id_tsk_run, w, 1
+0002BE 0009           00593                 TBLRD   *+                                ; find the task id
+0002C0 62F5           00594                 cpfseq  TABLAT
+0002C2 D???           00595                 bra             store_next                        ; continu to search
+0002C4 D???           00596                 bra     store_adr                         ; task ID found
+                      00597                 
+0002C6                00598 store_next      
+0002C6 0E07           00599                 movlw   7                                 ; offset 7 for next task ID
+0002C8 26F6           00600                 addwf   TBLPTRL, 1
+0002CA D???           00601                 bra             store_ctx
+                      00602 
+0002CC                00603 store_adr       
+0002CC 0009           00604                 TBLRD   *+                                ; access the context adr
+0002CE CFF5 FFE9      00605                 movff   TABLAT, FSR0L;
+0002D2 0009           00606                 TBLRD   *+ 
+0002D4 CFF5 FFEA      00607                 movff   TABLAT, FSR0H;
+                      00608                 
+0002D8 0E0B           00609                 movlw   0x0B                              ; we start to store SFR
+0002DA 26E9           00610                 addwf   FSR0L   
+0002DC 0E00           00611                 movlw   0x00
+0002DE 22EA           00612                 addwfc  FSR0H     
+0002E0 06E9           00613                 decf    FSR0L          
+0002E2 CFF3 FFED      00614                 movff   PRODL, POSTDEC0                   ; PRODL
+0002E6 CFF4 FFED      00615                 movff   PRODH, POSTDEC0                   ; PRODH
+0002EA CFD9 FFED      00616                 movff   FSR2L, POSTDEC0                   ; FSR2L
+0002EE CFDA FFED      00617                 movff   FSR2H, POSTDEC0                   ; FSR2H
+0002F2 CFE1 FFED      00618                 movff   FSR1L, POSTDEC0                   ; FSR1L
+0002F6 CFE2 FFED      00619                 movff   FSR1H, POSTDEC0                   ; FSR1H
+0002FA C??? FFED      00620                 movff   temp,  POSTDEC0                   ; FSR0L
+0002FE C??? FFED      00621                 movff   temp2, POSTDEC0                   ; FSR0H
+000302 C??? FFED      00622                 movff   STATUS_save,POSTDEC0              ; STATUS
+000306 C??? FFED      00623                 movff   BSR_save, POSTDEC0                ; BSR
+00030A C??? FFEF      00624                 movff   id, INDF0                         ; WREG
+                      00625 
+                      00626 ;/**********************************************************************
+                      00627 ; * -------------------------- STACK STORAGE ---------------------------
+                      00628 ; *
+                      00629 ; * Set the content of the stack just after the CTX SAVE area of the task.
+                      00630 ; *
+                      00631 ; **********************************************************************/
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 14
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00030E                00632 store_stack     
+00030E 0E0B           00633                 movlw   0x0B                              ; Lenght of the ctx structure
+000310 26E9           00634                 addwf   FSR0L
+000312 0E00           00635                 movlw   0x00
+000314 22EA           00636                 addwfc  FSR0H
+000316 6AE1           00637                 clrf    FSR1L                             ; Software stack pointed by FSR1
+000318 6AE2           00638                 clrf    FSR1H
+00031A 0E10           00639                 movlw   STACK_SIZE                        ; STACK_SIZE
+                      00640 
+00031C                00641 store_stack_next        
+00031C CFE6 FFEE      00642                 movff   POSTINC1, POSTINC0                ; Store software stack after ctx area
+000320 06E8           00643                 decf    WREG
+000322 E1??           00644                 bnz             store_stack_next
+                      00645 
+000324 0012           00646                 return
+                      00647 
+                      00648                 END                                       ; Directive 'end of program'
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+A                                 00000000
+ACCESS                            00000000
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ADCON0                            00000FC2
+ADCON1                            00000FC1
+ADCS0                             00000006
+ADCS1                             00000007
+ADCS2                             00000006
+ADDEN                             00000003
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADIP                              00000006
+ADON                              00000000
+ADRES                             00000FC3
+ADRESH                            00000FC4
+ADRESL                            00000FC3
+AN0                               00000000
+AN1                               00000001
+AN2                               00000002
+AN3                               00000003
+AN4                               00000005
+AN5                               00000000
+AN6                               00000001
+AN7                               00000002
+BANKED                            00000001
+BCLIE                             00000003
+BCLIF                             00000003
+BCLIP                             00000003
+BF                                00000000
+BOR                               00000000
+BRGH                              00000002
+BSR                               00000FE0
+BSR_save                          00000008
+C                                 00000000
+CCP1                              00000002
+CCP1CON                           00000FBD
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1IP                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1X                             00000005
+CCP1Y                             00000004
+CCP2A                             00000003
+CCP2CON                           00000FBA
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2IP                            00000000
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2X                             00000005
+CCP2Y                             00000004
+CCP2_DDRB                         00000003
+CCP2_DDRC                         00000001
+CCP2_PORTB                        00000003
+CCP2_PORTC                        00000001
+CCP2_TRISB                        00000003
+CCP2_TRISC                        00000001
+CCPR1                             00000FBE
+CCPR1H                            00000FBF
+CCPR1L                            00000FBE
+CCPR2                             00000FBB
+CCPR2H                            00000FBC
+CCPR2L                            00000FBB
+CFGS                              00000006
+CHS0                              00000003
+CHS1                              00000004
+CHS2                              00000005
+CK                                00000006
+CKE                               00000006
+CKP                               00000004
+CLKO                              00000006
+CREN                              00000004
+CS                                00000002
+CSRC                              00000007
+D                                 00000005
+DATA_ADDRESS                      00000005
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+DC2B0                             00000004
+DC2B1                             00000005
+DCCPX                             00000005
+DDRA                              TRISA
+DDRB                              TRISB
+DDRC                              TRISC
+DDRD                              TRISD
+DDRE                              TRISE
+DONE                              00000002
+D_A                               00000005
+D_NOT_A                           00000005
+EEADR                             00000FA9
+EECON1                            00000FA6
+EECON2                            00000FA7
+EEDATA                            00000FA8
+EEIE                              00000004
+EEIF                              00000004
+EEIP                              00000004
+EEPGD                             00000007
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FAST                              00000001
+FERR                              00000002
+FREE                              00000004
+FSR0                              00000000
+FSR0H                             00000FEA
+FSR0L                             00000FE9
+FSR1                              00000001
+FSR1H                             00000FE2
+FSR1L                             00000FE1
+FSR2                              00000002
+FSR2H                             00000FDA
+FSR2L                             00000FD9
+GCEN                              00000007
+GIE                               00000007
+GIEH                              00000007
+GIEL                              00000006
+GIE_GIEH                          00000007
+GO                                00000002
+GO_DONE                           00000002
+GO_NOT_DONE                       00000002
+I2C_DAT                           00000005
+I2C_DATA                          00000005
+I2C_READ                          00000002
+I2C_START                         00000003
+I2C_STOP                          00000004
+IBF                               00000007
+IBOV                              00000005
+INDF0                             00000FEF
+INDF1                             00000FE7
+INDF2                             00000FDF
+INT0                              00000000
+INT0E                             00000004
+INT0F                             00000001
+INT0IE                            00000004
+INT0IF                            00000001
+INT1                              00000001
+INT1E                             00000003
+INT1F                             00000000
+INT1IE                            00000003
+INT1IF                            00000000
+INT1IP                            00000006
+INT1P                             00000006
+INT2                              00000002
+INT2E                             00000004
+INT2F                             00000001
+INT2IE                            00000004
+INT2IF                            00000001
+INT2IP                            00000007
+INT2P                             00000007
+INTCON                            00000FF2
+INTCON1                           00000FF2
+INTCON2                           00000FF1
+INTCON3                           00000FF0
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+INTEDG0                           00000006
+INTEDG1                           00000005
+INTEDG2                           00000004
+IPEN                              00000007
+IPR1                              00000F9F
+IPR2                              00000FA2
+IRVST                             00000005
+LATA                              00000F89
+LATA0                             00000000
+LATA1                             00000001
+LATA2                             00000002
+LATA3                             00000003
+LATA4                             00000004
+LATA5                             00000005
+LATA6                             00000006
+LATB                              00000F8A
+LATB0                             00000000
+LATB1                             00000001
+LATB2                             00000002
+LATB3                             00000003
+LATB4                             00000004
+LATB5                             00000005
+LATB6                             00000006
+LATB7                             00000007
+LATC                              00000F8B
+LATC0                             00000000
+LATC1                             00000001
+LATC2                             00000002
+LATC3                             00000003
+LATC4                             00000004
+LATC5                             00000005
+LATC6                             00000006
+LATC7                             00000007
+LATD                              00000F8C
+LATD0                             00000000
+LATD1                             00000001
+LATD2                             00000002
+LATD3                             00000003
+LATD4                             00000004
+LATD5                             00000005
+LATD6                             00000006
+LATD7                             00000007
+LATE                              00000F8D
+LATE0                             00000000
+LATE1                             00000001
+LATE2                             00000002
+LVDCON                            00000FD2
+LVDEN                             00000004
+LVDIE                             00000002
+LVDIF                             00000002
+LVDIN                             00000005
+LVDIP                             00000002
+LVDL0                             00000000
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+LVDL1                             00000001
+LVDL2                             00000002
+LVDL3                             00000003
+N                                 00000004
+NOT_A                             00000005
+NOT_ADDRESS                       00000005
+NOT_BOR                           00000000
+NOT_DONE                          00000002
+NOT_IPEN                          00000007
+NOT_PD                            00000002
+NOT_POR                           00000001
+NOT_RBPU                          00000007
+NOT_RC8                           00000006
+NOT_RI                            00000004
+NOT_T1SYNC                        00000002
+NOT_T3SYNC                        00000002
+NOT_TO                            00000003
+NOT_TX8                           00000006
+NOT_W                             00000002
+NOT_WRITE                         00000002
+OBF                               00000006
+OERR                              00000001
+OSC2                              00000006
+OSCCON                            00000FD3
+OV                                00000003
+P                                 00000004
+PC                                00000FF9
+PCFG0                             00000000
+PCFG1                             00000001
+PCFG2                             00000002
+PCFG3                             00000003
+PCL                               00000FF9
+PCLATH                            00000FFA
+PCLATU                            00000FFB
+PD                                00000002
+PEIE                              00000006
+PEIE_GIEL                         00000006
+PEN                               00000002
+PGC                               00000006
+PGD                               00000007
+PGM                               00000005
+PIE1                              00000F9D
+PIE2                              00000FA0
+PIR1                              00000F9E
+PIR2                              00000FA1
+PLUSW0                            00000FEB
+PLUSW1                            00000FE3
+PLUSW2                            00000FDB
+POR                               00000001
+PORTA                             00000F80
+PORTB                             00000F81
+PORTC                             00000F82
+PORTD                             00000F83
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PORTE                             00000F84
+POSTDEC0                          00000FED
+POSTDEC1                          00000FE5
+POSTDEC2                          00000FDD
+POSTINC0                          00000FEE
+POSTINC1                          00000FE6
+POSTINC2                          00000FDE
+PR2                               00000FCB
+PREINC0                           00000FEC
+PREINC1                           00000FE4
+PREINC2                           00000FDC
+PROD                              00000FF3
+PRODH                             00000FF4
+PRODL                             00000FF3
+PSA                               00000003
+PSP0                              00000000
+PSP1                              00000001
+PSP2                              00000002
+PSP3                              00000003
+PSP4                              00000004
+PSP5                              00000005
+PSP6                              00000006
+PSP7                              00000007
+PSPIE                             00000007
+PSPIF                             00000007
+PSPIP                             00000007
+PSPMODE                           00000004
+R                                 00000002
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RBIE                              00000003
+RBIF                              00000000
+RBIP                              00000000
+RBPU                              00000007
+RC0                               00000000
+RC1                               00000001
+RC2                               00000002
+RC3                               00000003
+RC4                               00000004
+RC5                               00000005
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RC6                               00000006
+RC7                               00000007
+RC8_9                             00000006
+RC9                               00000006
+RCD8                              00000000
+RCEN                              00000003
+RCIE                              00000005
+RCIF                              00000005
+RCIP                              00000005
+RCON                              00000FD0
+RCREG                             00000FAE
+RCSTA                             00000FAB
+RD                                00000000
+RD0                               00000000
+RD1                               00000001
+RD16                              00000007
+RD2                               00000002
+RD3                               00000003
+RD4                               00000004
+RD5                               00000005
+RD6                               00000006
+RD7                               00000007
+RE0                               00000000
+RE1                               00000001
+RE2                               00000002
+READ_WRITE                        00000002
+RI                                00000004
+RSEN                              00000001
+RX                                00000007
+RX9                               00000006
+RX9D                              00000000
+R_NOT_W                           00000002
+R_W                               00000002
+S                                 00000003
+SCK                               00000003
+SCL                               00000003
+SCS                               00000000
+SDA                               00000004
+SDI                               00000004
+SDO                               00000005
+SEN                               00000000
+SMP                               00000007
+SP0                               00000000
+SP1                               00000001
+SP2                               00000002
+SP3                               00000003
+SP4                               00000004
+SPBRG                             00000FAF
+SPEN                              00000007
+SREN                              00000005
+SS                                00000005
+SSPADD                            00000FC8
+SSPBUF                            00000FC9
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SSPCON1                           00000FC6
+SSPCON2                           00000FC5
+SSPEN                             00000005
+SSPIE                             00000003
+SSPIF                             00000003
+SSPIP                             00000003
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPOV                             00000006
+SSPSTAT                           00000FC7
+STACK_SIZE                        0x10
+STATUS                            00000FD8
+STATUS_save                       00000007
+STKFUL                            00000007
+STKOVF                            00000007
+STKPTR                            00000FFC
+STKPTR0                           00000000
+STKPTR1                           00000001
+STKPTR2                           00000002
+STKPTR3                           00000003
+STKPTR4                           00000004
+STKUNF                            00000006
+SWDTE                             00000000
+SWDTEN                            00000000
+SYNC                              00000004
+T08BIT                            00000006
+T0CKI                             00000004
+T0CON                             00000FD5
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0IP                              00000002
+T0PS0                             00000000
+T0PS1                             00000001
+T0PS2                             00000002
+T0SE                              00000004
+T1CKI                             00000000
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000FCD
+T1INSYNC                          00000002
+T1OSCEN                           00000003
+T1OSI                             00000001
+T1OSO                             00000000
+T1SYNC                            00000002
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             00000FCA
+T3CCP1                            00000003
+T3CCP2                            00000006
+T3CKPS0                           00000004
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 23
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T3CKPS1                           00000005
+T3CON                             00000FB1
+T3INSYNC                          00000002
+T3SYNC                            00000002
+TABLAT                            00000FF5
+TBLPTR                            00000FF6
+TBLPTRH                           00000FF7
+TBLPTRL                           00000FF6
+TBLPTRU                           00000FF8
+TMR0                              00000FD6
+TMR0H                             00000FD7
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR0IP                            00000002
+TMR0L                             00000FD6
+TMR0ON                            00000007
+TMR1                              00000FCE
+TMR1CS                            00000001
+TMR1H                             00000FCF
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1IP                            00000000
+TMR1L                             00000FCE
+TMR1ON                            00000000
+TMR2                              00000FCC
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2IP                            00000001
+TMR2ON                            00000002
+TMR3                              00000FB2
+TMR3CS                            00000001
+TMR3H                             00000FB3
+TMR3IE                            00000001
+TMR3IF                            00000001
+TMR3IP                            00000001
+TMR3L                             00000FB2
+TMR3ON                            00000000
+TO                                00000003
+TOS                               00000FFD
+TOSH                              00000FFE
+TOSL                              00000FFD
+TOSU                              00000FFF
+TOUTPS0                           00000003
+TOUTPS1                           00000004
+TOUTPS2                           00000005
+TOUTPS3                           00000006
+TRISA                             00000F92
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 24
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISA6                            00000006
+TRISB                             00000F93
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRISC                             00000F94
+TRISC0                            00000000
+TRISC1                            00000001
+TRISC2                            00000002
+TRISC3                            00000003
+TRISC4                            00000004
+TRISC5                            00000005
+TRISC6                            00000006
+TRISC7                            00000007
+TRISD                             00000F95
+TRISD0                            00000000
+TRISD1                            00000001
+TRISD2                            00000002
+TRISD3                            00000003
+TRISD4                            00000004
+TRISD5                            00000005
+TRISD6                            00000006
+TRISD7                            00000007
+TRISE                             00000F96
+TRISE0                            00000000
+TRISE1                            00000001
+TRISE2                            00000002
+TRMT                              00000001
+TX                                00000006
+TX8_9                             00000006
+TX9                               00000006
+TX9D                              00000000
+TXD8                              00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXIP                              00000004
+TXREG                             00000FAD
+TXSTA                             00000FAC
+UA                                00000001
+VREFM                             00000002
+VREFP                             00000003
+W                                 00000000
+WCOL                              00000007
+WDTCON                            00000FD1
+WR                                00000001
+WREG                              00000FE8
+WREN                              00000002
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 25
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+WRERR                             00000003
+Z                                 00000002
+_BORV_20                          000000FF
+_BORV_20_2L                       000000FF
+_BORV_27_2L                       000000FB
+_BORV_42_2L                       000000F7
+_BORV_45_2L                       000000F3
+_BOR_OFF_2L                       000000FD
+_BOR_ON_2L                        000000FF
+_CCP2MX_OFF                       000000FE
+_CCP2MX_OFF_3H                    000000FE
+_CCP2MX_ON                        000000FF
+_CCP2MX_ON_3H                     000000FF
+_CONFIG1H                         00300001
+_CONFIG2H                         00300003
+_CONFIG2L                         00300002
+_CONFIG3H                         00300005
+_CONFIG4L                         00300006
+_CONFIG5H                         00300009
+_CONFIG5L                         00300008
+_CONFIG6H                         0030000B
+_CONFIG6L                         0030000A
+_CONFIG7H                         0030000D
+_CONFIG7L                         0030000C
+_CP0_OFF_5L                       000000FF
+_CP0_ON_5L                        000000FE
+_CP1_OFF_5L                       000000FF
+_CP1_ON_5L                        000000FD
+_CP2_OFF_5L                       000000FF
+_CP2_ON_5L                        000000FB
+_CP3_OFF_5L                       000000FF
+_CP3_ON_5L                        000000F7
+_CPB_OFF_5H                       000000FF
+_CPB_ON_5H                        000000BF
+_CPD_OFF_5H                       000000FF
+_CPD_ON_5H                        0000007F
+_DEBUG_OFF_4L                     000000FF
+_DEBUG_ON_4L                      0000007F
+_DEVICE_INC                       
+_DEVID1                           003FFFFE
+_DEVID2                           003FFFFF
+_EBTR0_OFF_7L                     000000FF
+_EBTR0_ON_7L                      000000FE
+_EBTR1_OFF_7L                     000000FF
+_EBTR1_ON_7L                      000000FD
+_EBTR2_OFF_7L                     000000FF
+_EBTR2_ON_7L                      000000FB
+_EBTR3_OFF_7L                     000000FF
+_EBTR3_ON_7L                      000000F7
+_EBTRB_OFF_7H                     000000FF
+_EBTRB_ON_7H                      000000BF
+_ECIO_OSC                         000000FD
+_ECIO_OSC_1H                      000000FD
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 26
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_EC_OSC                           000000FC
+_EC_OSC_1H                        000000FC
+_HSPLL_OSC                        000000FE
+_HSPLL_OSC_1H                     000000FE
+_HS_OSC                           000000FA
+_HS_OSC_1H                        000000FA
+_IDLOC0                           00200000
+_IDLOC1                           00200001
+_IDLOC2                           00200002
+_IDLOC3                           00200003
+_IDLOC4                           00200004
+_IDLOC5                           00200005
+_IDLOC6                           00200006
+_IDLOC7                           00200007
+_LP_OSC                           000000F8
+_LP_OSC_1H                        000000F8
+_LVP_OFF_4L                       000000FB
+_LVP_ON_4L                        000000FF
+_OSCS_OFF_1H                      000000FF
+_OSCS_ON_1H                       000000DF
+_PWRT_OFF_2L                      000000FF
+_PWRT_ON_2L                       000000FE
+_RCIO_OSC                         000000FF
+_RCIO_OSC_1H                      000000FF
+_RC_OSC                           000000FB
+_RC_OSC_1H                        000000FB
+_STVR_OFF_4L                      000000FE
+_STVR_ON_4L                       000000FF
+_WDTPS_128_2H                     000000FF
+_WDTPS_16_2H                      000000F9
+_WDTPS_1_2H                       000000F1
+_WDTPS_2_2H                       000000F3
+_WDTPS_32_2H                      000000FB
+_WDTPS_4_2H                       000000F5
+_WDTPS_64_2H                      000000FD
+_WDTPS_8_2H                       000000F7
+_WDT_OFF_2H                       000000FE
+_WDT_ON_2H                        000000FF
+_WRT0_OFF_6L                      000000FF
+_WRT0_ON_6L                       000000FE
+_WRT1_OFF_6L                      000000FF
+_WRT1_ON_6L                       000000FD
+_WRT2_OFF_6L                      000000FF
+_WRT2_ON_6L                       000000FB
+_WRT3_OFF_6L                      000000FF
+_WRT3_ON_6L                       000000F7
+_WRTB_OFF_6H                      000000FF
+_WRTB_ON_6H                       000000BF
+_WRTC_OFF_6H                      000000FF
+_WRTC_ON_6H                       000000DF
+_WRTD_OFF_6H                      000000FF
+_WRTD_ON_6H                       0000007F
+_XT_OSC                           000000F9
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 27
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_XT_OSC_1H                        000000F9
+__18F452                          00000001
+_isHook                           00000106
+_k_init_RAM                       0000000E
+_k_init_STK                       0000001C
+_kernel                           00000000
+_parser                           00000044
+_parser_init                      00000060
+_parser_update                    000000A8
+_parser_update_diff               000000C8
+_parser_update_loop               000000B4
+_parser_update_rr                 000000D0
+_parser_update_swap               000000DE
+_restore_find                     00000270
+_restore_next                     0000027A
+_restore_read                     00000280
+_restore_start_adr                00000264
+_save_ctx                         00000294
+_sched                            00000108
+_sched_clr_end                    0000011C
+_sched_clr_next                   000001E6
+_sched_clr_run                    0000010E
+_sched_exec_tsk                   00000122
+_sched_jmp_next                   000001F2
+_scheduler                        00000204
+_scheduler_jmp                    00000210
+_scheduler_lp                     00000226
+_scheduler_next                   00000258
+_scheduler_ordo                   00000242
+_while                            00000200
+call_from                         00000006
+id                                00000002
+id_tsk_run                        00000000
+permut                            00000005
+restore_adr                       0000015A
+restore_ctx                       0000014A
+restore_next                      00000154
+restore_stack                     00000166
+restore_stack_next                00000174
+stack_size                        00000003
+store_adr                         000002CC
+store_ctx                         000002BC
+store_next                        000002C6
+store_stack                       0000030E
+store_stack_next                  0000031C
+temp                              00000001
+temp2                             00000004
+tsk_1_stack                       00000000
+tsk_1_state                       00000000
+tsk_2_stack                       00000000
+tsk_2_state                       00000000
+tsk_3_stack                       00000000
+tsk_3_state                       00000000
+MPASM 5.54                        KERNEL.ASM   3-23-2017  13:32:31         PAGE 28
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+tsk_4_stack                       00000000
+tsk_4_state                       00000000
+tsk_5_stack                       00000000
+tsk_5_state                       00000000
+tsk_6_stack                       00000000
+tsk_6_state                       00000000
+tsk_7_stack                       00000000
+tsk_7_state                       00000000
+tsk_8_stack                       00000000
+tsk_8_state                       00000000
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     0 reported,     0 suppressed
+
+

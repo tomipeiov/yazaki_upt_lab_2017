@@ -1,0 +1,116 @@
+>
+               PICOS18 release 1.11
+
+PICOS18 - Real-time kernel for PIC18 family
+
+
+
+03rd August 2003   - PICOS18 release 1.11
+  * new feature    : All the files
+                     Added device.inc and device.h in PICOS18
+                     to specify everything target specific.
+                     taskdesc.c
+                     Use now the ID of the task defined in task.h.
+                     kernel.asm & task_led.c
+                     Added a STACK_SIZE define to modify the size
+                     of the tempdata area for each task.
+  * bug correction : pro_man.c
+                     Fixed a bug in TerminateTask & ChainTask
+                     (original address was not restored properly).
+
+
+10th May 2003      - PICOS18 release 1.10
+  * bug correction : kernel.asm
+                     Added STATUS and BSR storage management.
+                     pro_man.c / pro_man.h
+                     Store STATUS in SAVE_STK_PTR.
+                     Store BSR in CGI macro.
+                     timer.c
+                     Fixed a bug in the while loop.
+
+
+10th March 2003    - PICOS18 release 1.09
+  * bug correction : timer.c
+                     SetEvent bug fixed.
+
+
+12th February 2003 - PICOS18 release 1.08
+  * improvement    : pro_man.h
+                     pro_man.c
+                     kernel.asm
+                     Modify CGI/SGI macro to allow services call
+                     from ISR.
+
+
+2d February 2003  -  PICOS18 release 1.07
+  * improvement    : pro_man.h
+                     taskdesc.c
+                     Add DeclareRAM(RamStartAddress) macro
+                     in order to let the linker solve the 
+                     data & code section symbols.
+  * bug correction : kernel.asm
+                     Modify the call_from update (add BSR selection).
+                     even_man.c
+                     alarm.c
+                     pro_man.c
+                     Add forgotten SGI in case of immediate return.
+
+
+26th January 2003 -  PICOS18 release 1.06
+  * improvement    : all the c, asm and h files.
+                     pic18f452.lkr
+                     Replace fixed SECTIONS by relocatable SECTIONS.
+
+23th January 2003 -  PICOS18 release 1.05
+  * bug correction : alarm.c
+                     alarm.h
+                     Add "StatusType Delay40MHz(unsigned int us)" function.
+
+10th January 2003 -  PICOS18 release 1.04
+  * bug correction : int.asm
+                     kernel.asm
+                     alarm.c
+                     boot.c
+                     even_man.c
+                     int_man.c
+                     main.c
+                     pro_man.c
+                     taskdesc.c
+                     timer.c
+                     tsk_led.c
+                     Remove the LIST directives in asm files.
+                     Replace #include <pic...h> by "kernel.h".
+                     Suppress the #include <pic...h> in *.asm & *.c.
+                     Check #include "pro_man.h" presence in every files.
+                     Add INFINITIVE alarm feature to use an alarm forever
+                     (cycle = 0 by definition).
+
+11th November 2002-  PICOS18 release 1.03
+  * bug correction : alarm.c
+                     even_man.c
+                     kernel.asm
+                     pro_man.c
+                     pro_man.h
+                     timer.c
+                     Kernel and services are not interruptible, 
+                     so I need to add calls to CGI & SGI macros
+                     (CGI/SGI for Clear/Set General Interrupt).
+
+10th November 2002-  PICOS18 release 1.02
+  * bug correction : timer.c
+                     The wrong condition "if (alarm_ptr->flag > 1)"
+                     is not enough to set an EVENT.
+                     Replaced by "if (alarm_ptr->flag & ACTIVATETASK)".
+
+
+2d  November 2002 -  PICOS18 release 1.01
+  * bug correction : alarm.h
+                     MPLAB-C18 demo compiler v1.00.31
+                     is not able to compute typedef &
+                     struct in the same line.
+
+
+1st November 2002 -  PICOS18 release 1.0
+  * initial release
+
+

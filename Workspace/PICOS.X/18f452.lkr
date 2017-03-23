@@ -1,0 +1,98 @@
+//**********************************************************************/
+//*                                                                    */
+//* File name: 18f452.lkr                                              */
+//*                                                                    */
+//* Since:     2003/01/26                                              */
+//*                                                                    */
+//* Version:   1.11                                                    */
+//*                                                                    */
+//* Author:    MONTAGNE Xavier [XM] {link xavier.montagne@wanadoo.fr}  */
+//*                                                                    */
+//* Purpose:   Specify the memory organisation (cf map file).          */
+//*                                                                    */
+//* Distribution: This file is part of PICOS18                         */
+//*               PICOS18 is free software; you can redistribute it    */
+//*               and/or modify it under the terms of the GNU General  */
+//*               Public License as published by the Free Software     */
+//*               Foundation; either version 2, or (at your option)    */
+//*               any later version.                                   */
+//*                                                                    */
+//*               PICOS18 is distributed in the hope that it will be   */
+//*               useful, but WITHOUT ANY WARRANTY; without even the   */
+//*               implied warranty of MERCHANTABILITY or FITNESS FOR A */
+//*               PARTICULAR PURPOSE.  See the GNU General Public      */
+//*               License for more details.                            */
+//*                                                                    */
+//*               You should have received a copy of the GNU General   */
+//*               Public License along with gpsim; see the file        */
+//*               COPYING.txt. If not, write to the Free Software      */
+//*               Foundation, 59 Temple Place - Suite 330,             */
+//*               Boston, MA 02111-1307, USA.                          */
+//*                                                                    */
+//* History:                                                           */
+//*   2003/01/26  [XM] Create this file.                               */
+//*               Replace fixed SECTIONS by relocatable SECTIONS.      */
+//*                                                                    */
+//**********************************************************************/
+
+
+LIBPATH  "c:\Program Files (x86)\Microchip\mplabc18\v3.47\lib\"
+
+FILES clib.lib 
+FILES p18f452.lib
+
+
+// **************************************************************
+// * Describe the ROM physical memory organisation              *
+// **************************************************************
+CODEPAGE   NAME=BOOT     START=0x0000     END=0x0007     PROTECTED
+CODEPAGE   NAME=vectors  START=0x0008     END=0x004F     PROTECTED
+CODEPAGE   NAME=DESCRIPT START=0x0050     END=0x00FF     PROTECTED
+CODEPAGE   NAME=KERNEL   START=0x0100     END=0x04FF     PROTECTED
+CODEPAGE   NAME=SERVICES START=0x0500     END=0x1FFF     PROTECTED
+CODEPAGE   NAME=TASK     START=0x2000     END=0x6FFF
+CODEPAGE   NAME=FREE     START=0x7000     END=0x7FFF
+CODEPAGE   NAME=idlocs   START=0x200000   END=0x200007   PROTECTED
+CODEPAGE   NAME=config   START=0x300000   END=0x300007   PROTECTED
+CODEPAGE   NAME=devid    START=0x3FFFFE   END=0x3FFFFF   PROTECTED
+
+// ***************************************************************
+// * Link the logical areas (SECTION) to ROM physical memory     *
+// ***************************************************************
+SECTION    NAME=INT                       ROM=vectors
+SECTION    NAME=KERNEL_ROM                ROM=KERNEL
+SECTION    NAME=ALARM_ROM                 ROM=SERVICES
+SECTION    NAME=BOOT_ROM                  ROM=BOOT
+SECTION    NAME=EVEN_ROM                  ROM=SERVICES
+SECTION    NAME=INT_ROM                   ROM=SERVICES
+SECTION    NAME=PROC_ROM                  ROM=SERVICES
+SECTION    NAME=COUNTER_ROM               ROM=SERVICES
+SECTION    NAME=DESC_ROM                  ROM=DESCRIPT
+SECTION    NAME=MAIN_ROM                  ROM=FREE
+SECTION    NAME=LED_ON_ROM                ROM=TASK
+
+
+// **************************************************************
+// * Describe the RAM physical memory organisation              *
+// **************************************************************
+ACCESSBANK  NAME=accessram  START=0x0      END=0x7F
+DATABANK    NAME=kernel     START=0x80     END=0xFF     PROTECTED
+DATABANK    NAME=task       START=0x100    END=0x3FF
+DATABANK    NAME=free       START=0x400    END=0x4FF
+DATABANK    NAME=gpr5       START=0x500    END=0x5FF
+ACCESSBANK  NAME=accesssfr  START=0xF80    END=0xFFF    PROTECTED
+
+// ***************************************************************
+// * Link the logical areas (SECTION) to RAM physical memory     *
+// ***************************************************************
+SECTION    NAME=KERNEL_RAM                RAM=kernel
+SECTION    NAME=ALARM_RAM                 RAM=kernel
+SECTION    NAME=EVEN_RAM                  RAM=kernel
+SECTION    NAME=INT_RAM                   RAM=kernel
+SECTION    NAME=PROC_RAM                  RAM=kernel
+SECTION    NAME=COUNTER_RAM               RAM=kernel
+SECTION    NAME=MAIN_RAM                  RAM=free
+SECTION    NAME=LED_ON_RAM                RAM=task
+
+STACK SIZE=0x100 RAM=gpr5
+
