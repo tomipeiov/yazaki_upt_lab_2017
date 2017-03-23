@@ -1,6 +1,6 @@
 /**********************************************************************/
 /*                                                                    */
-/* File name: main.c                                                  */
+/* File name: taskdesc.c                                              */
 /*                                                                    */
 /* Since:     2002/09/09                                              */
 /*                                                                    */
@@ -8,7 +8,17 @@
 /*                                                                    */
 /* Author:    MONTAGNE Xavier [XM] {link xavier.montagne@wanadoo.fr}  */
 /*                                                                    */
-/* Purpose:   Initialize the entier RAM and start the kernel.         */
+/* Purpose:   Kind of OIL file where all the features of the tasks    */
+/*            are described.                                          */
+/*                                                                    */
+/*           rom_desc_tsk foo = {                                     */
+/*               0x..,    Priority level [0:7],0 the most significant */
+/*               0x..,    Stack depth, nb of adress storable in stack */
+/*               0x....,  Start adress of the task                    */
+/*               0x..,    Task state at start [RUN/WAIT/READY/SUSPEND]*/
+/*               0x..,    Identification number of the task           */
+/*               0x....   Context adress (adress of the task RAM area)*/
+/*               };                                                   */
 /*                                                                    */
 /* Distribution: This file is part of PICOS18                         */
 /*               PICOS18 is free software; you can redistribute it    */
@@ -30,133 +40,53 @@
 /*               Boston, MA 02111-1307, USA.                          */
 /*                                                                    */
 /* History:                                                           */
-/*   2002/09/09  [XM] Create this file.                               */
-/*   2003/01/10  [XM] Remove #include <pic....h> directive.           */
+/*   2002/10/27  [XM] Create this file                                */
 /*   2003/01/26  [XM] Replace fixed SECTIONS by relocatable SECTIONS. */
+/*   2003/02/02  [XM] Linker solves tha data & code address symbols.  */
+/*                    Use of DeclareTask & DeclareRAM macros.         */
 /*   2003/08/03  [XM] Added "device.h" include.                       */
+/*                    Use now the ID of the task defined in task.h.   */
 /*                                                                    */
 /**********************************************************************/
 
 #include "device.h"
 #include "pro_man.h"
-#include "alarm.h"
 #include "task.h"
 
 /**********************************************************************
- * Definition dedicated to the local functions.
+ * ------------------ DATA - CODE SYMBOLS DEFINITION ------------------
  **********************************************************************/
-#define DEFAULT_MODE       0
-
+DeclareTask(Led_ON);
+DeclareRAM(ctx_led_on);
 
 /**********************************************************************
- * Function prototypes.
+ * ---------------------- TASK DESCRIPTOR SECTION ---------------------
  **********************************************************************/
-void main (void);
-void Init(void);
-void StartupHook(void);
-void ShutdownHook(StatusType error);
-void ErrorHook(StatusType error);
-void PreTaskHook(void);
-void PostTaskHook(void);
+#pragma		romdata		DESC_ROM
 
 /**********************************************************************
- * RAM area of the main function.
- * Context area first followed by global variables.
+ * --------------------------- Led_ON task ----------------------------
  **********************************************************************/
-#pragma		udata	MAIN_RAM
-AppModeType SelectedMode;
-
+rom_desc_tsk rom_desc_led_ON = {
+	0x04,                              /* prioinit from 0 to 7        */
+	0x04,                              /* stacksize in word [32 bits] */
+	Led_ON,                            /* adr_tsk in 16 bits          */
+	0x01,                              /* state at init phase         */
+	LED_ON,                            /* id_tsk from 1 to 8          */
+	&ctx_led_on                        /* ctx_tsk in 16 bits          */
+};
 
 /**********************************************************************
- * -------------------------- main function ---------------------------
- *
- * Setup the different alarms and start the kernel.
- *
+ * --------------------- END TASK DESCRIPTOR SECTION ------------------
  **********************************************************************/
-#pragma		code	MAIN_ROM
+rom_desc_tsk end = {
+	0x00,                              /* prioinit from 0 to 7        */
+	0x00,                              /* stacksize in word [32 bits] */
+	0x0000,                            /* adr_tsk in 16 bits          */
+	0x00,                              /* state at init phase         */
+	0x00,                              /* id_tsk from 1 to 8          */
+	0x0000                             /* ctx_tsk in 16 bits          */
+};
 
-void main(void)
-{
-  SelectedMode = DEFAULT_MODE;
-  Init();
-  
-  while(1)
-  {
-    StartOS(SelectedMode);
-  }
-}
+	
 
-/**********************************************************************
- * Clear all RAM memory and set PORTB to output mode.
- *
- * @return void
- **********************************************************************/
-void Init(void)
-{
-  _asm	movlw	0x07		_endasm
-  _asm	movwf	ADCON1, 0	_endasm
-  _asm	movlw	0x00		_endasm
-  _asm	movwf	TRISE, 0	_endasm 
-
-  PORTE = 0;
-
-  FSR0H = 0;
-  FSR0L = 0;
-
-  while (FSR0H < 6)
-  {
-    INDF0 = 0;
-    if (FSR0L == 0xFF)
-      FSR0H++;
-    FSR0L++;
-  }
-}
-
-/**********************************************************************
- * Hook routine called just before entering in kernel.
- *
- * @param error      IN The new error stored in buffer
- * @return error     Error level
- **********************************************************************/
-void StartupHook(void)
-{
-}
-
-/**********************************************************************
- * Hook routine called just after leaving the kernel.
- *
- * @param error      IN The last error detected by OS
- * @return void
- **********************************************************************/
-void ShutdownHook(StatusType error)
-{
-}
-
-/**********************************************************************
- * Store a new error in a global buffer keeping a track of the 
- * application history.
- *
- * @param error      IN The new error stored in buffer
- * @return void
- **********************************************************************/
-void ErrorHook(StatusType error)
-{
-}
-
-/**********************************************************************
- * Hook routine called just before entering in a task.
- *
- * @return void
- **********************************************************************/
-void PreTaskHook(void)
-{
-}
-
-/**********************************************************************
- * Hook routine called just after leaving a task.
- *
- * @return void
- **********************************************************************/
-void PostTaskHook(void)
-{
-}
