@@ -51,6 +51,12 @@
 
 /* --- Task define ID for ActivateTask service ---- */
 #define LED_ON               1
-#define LEDBLINKING          2
+#define YZK_TASK_NAME               2
+
+
+
+
+
+#define LEDBLINKING          3
 
 #endif /* _TASK_H_ */

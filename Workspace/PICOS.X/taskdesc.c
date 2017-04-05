@@ -57,7 +57,12 @@
  * ------------------ DATA - CODE SYMBOLS DEFINITION ------------------
  **********************************************************************/
 DeclareTask(Led_ON);
+DeclareTask(YZK_lab);
+
+
 DeclareRAM(ctx_led_on);
+DeclareRAM(ctx_Yzk_lab);
+
 
 /**********************************************************************
  * ---------------------- TASK DESCRIPTOR SECTION ---------------------
@@ -74,6 +79,15 @@ rom_desc_tsk rom_desc_led_ON = {
 	0x01,                              /* state at init phase         */
 	LED_ON,                            /* id_tsk from 1 to 8          */
 	&ctx_led_on                        /* ctx_tsk in 16 bits          */
+};
+
+rom_desc_tsk rom_desc_YZK_LAB = {
+	0x04,                              /* prioinit from 0 to 7        */
+	0x04,                              /* stacksize in word [32 bits] */
+	YZK_lab,                            /* adr_tsk in 16 bits          */
+	0x00,                              /* state at init phase         */
+	YZK_TASK_NAME,                            /* id_tsk from 1 to 8          */
+	&ctx_Yzk_lab                        /* ctx_tsk in 16 bits          */
 };
 
 /**********************************************************************
