@@ -56,6 +56,8 @@
 #pragma		udata	LED_ON_RAM
 /* Always context task area before */
 ctx_tsk ctx_led_on;
+
+
 char stack_led_on[STACK_SIZE];
 
 
@@ -72,5 +74,6 @@ TASK(Led_ON)
   PORTEbits.RE0 = 1;
 
   while(1);
+  TerminateTask();
 }
  
