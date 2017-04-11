@@ -56,7 +56,8 @@
 #pragma		udata	LED_ON_RAM
 /* Always context task area before */
 ctx_tsk ctx_led_on;
-ctx_tsk ctx_Yzk_lab;
+
+
 char stack_led_on[STACK_SIZE];
 
 
@@ -71,15 +72,8 @@ char stack_led_on[STACK_SIZE];
 TASK(Led_ON)
 {
   PORTEbits.RE0 = 1;
-  ActivateTask(YZK_TASK_NAME);
-  // while(1);
+
+  while(1);
   TerminateTask();
 }
  
-
- TASK(YZK_lab)
- {
- 	int c;
- 	c++;
-
- }

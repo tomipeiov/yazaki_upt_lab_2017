@@ -53,7 +53,7 @@ CODEPAGE   NAME=SERVICES START=0x0500     END=0x1FFF     PROTECTED
 CODEPAGE   NAME=TASK     START=0x2000     END=0x6FFF
 CODEPAGE   NAME=FREE     START=0x7000     END=0x7FFF
 CODEPAGE   NAME=idlocs   START=0x200000   END=0x200007   PROTECTED
-CODEPAGE   NAME=config   START=0x300000   END=0x300007   PROTECTED
+CODEPAGE   NAME=config   START=0x300000   END=0x30000D   PROTECTED
 CODEPAGE   NAME=devid    START=0x3FFFFE   END=0x3FFFFF   PROTECTED
 
 // ***************************************************************
@@ -69,7 +69,9 @@ SECTION    NAME=PROC_ROM                  ROM=SERVICES
 SECTION    NAME=COUNTER_ROM               ROM=SERVICES
 SECTION    NAME=DESC_ROM                  ROM=DESCRIPT
 SECTION    NAME=MAIN_ROM                  ROM=FREE
+
 SECTION    NAME=LED_ON_ROM                ROM=TASK
+SECTION    NAME=LED_BL_ROM                ROM=TASK
 
 
 // **************************************************************
@@ -93,6 +95,7 @@ SECTION    NAME=PROC_RAM                  RAM=kernel
 SECTION    NAME=COUNTER_RAM               RAM=kernel
 SECTION    NAME=MAIN_RAM                  RAM=free
 SECTION    NAME=LED_ON_RAM                RAM=task
+SECTION    NAME=LED_BL_RAM                RAM=task
 
 STACK SIZE=0x100 RAM=gpr5
 

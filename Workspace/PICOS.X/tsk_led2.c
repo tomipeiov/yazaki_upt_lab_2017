@@ -1,15 +1,14 @@
 /**********************************************************************/
 /*                                                                    */
-/* File name: task.h                                                  */
+/* File name: tsk_led.c                                               */
 /*                                                                    */
-/* Since:     2002/09/09                                              */
+/* Since:     2002/10/09                                              */
 /*                                                                    */
 /* Version:   1.11                                                    */
 /*                                                                    */
 /* Author:    MONTAGNE Xavier [XM] {link xavier.montagne@wanadoo.fr}  */
 /*                                                                    */
-/* Purpose:   Definition of all the types, defines and functions      */
-/*            used by the tasks.                                      */
+/* Purpose:   This task is void.                                      */
 /*                                                                    */
 /* Distribution: This file is part of PICOS18                         */
 /*               PICOS18 is free software; you can redistribute it    */
@@ -32,25 +31,54 @@
 /*                                                                    */
 /* History:                                                           */
 /*   2002/10/27  [XM] Create this file.                               */
+/*   2003/01/10  [XM] Remove #include <pic....h> directive.           */
 /*   2003/01/26  [XM] Replace fixed SECTIONS by relocatable SECTIONS. */
+/*   2003/08/03  [XM] Added "device.h" include.                       */
+/*               [XM] Added STACK_SIZE label to adjust the temp area  */
+/*                    size of each task (according to C18 .tempdata). */
 /*                                                                    */
 /**********************************************************************/
 
-#ifndef _TASK_H_
-#define _TASK_H_
+#include "device.h"
+#include "pro_man.h"
+#include "even_man.h"
+#include "task.h"
 
-/*****************************************************
- * ----------------- Type definition -----------------
- ****************************************************/
+/**********************************************************************
+ * Definition dedicated to the local functions.
+ **********************************************************************/
 
 
-/*****************************************************
- * -------------------- Defines ----------------------
- ****************************************************/
-#define LED_EVENT            4
+/**********************************************************************
+ * RAM area of the task.
+ * Context area first followed by software stack area.
+ **********************************************************************/
+#pragma		udata	LED_BL_RAM
+/* Always context task area before */
+ctx_tsk ctx_led_bl;
+char stack_led_bl[16];
+char done;
+/**********************************************************************
+ * ---------------------------- Led_ON TASK ---------------------------
+ *
+ * void
+ *
+ **********************************************************************/
+#pragma		code	LED_BL_ROM
 
-/* --- Task define ID for ActivateTask service ---- */
-#define LED_ON               1
-#define LEDBLINKING          2
+TASK(Led_blinking)
+{
+   if (done == 0)
+   {
+      PORTEbits.RE1 = 1;
+      done = 1;
+   }
+   else
+   {
+      PORTEbits.RE1 = 0;
+      done = 0;
+   }
 
-#endif /* _TASK_H_ */
+   TerminateTask();
+}
+ 

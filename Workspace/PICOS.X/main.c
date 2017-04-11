@@ -42,11 +42,21 @@
 #include "alarm.h"
 #include "task.h"
 
+// CONFIG2H
+#pragma config WDT = OFF        // Watchdog Timer Enable bit (WDT disabled (control is placed on the SWDTEN bit))
+#pragma config WDTPS = 128      // Watchdog Timer Postscale Select bits (1:128)
+
+// CONFIG3H
+#pragma config CCP2MUX = ON     // CCP2 Mux bit (CCP2 input/output is multiplexed with RC1)
+
+// CONFIG4L
+#pragma config STVR = OFF       // Stack Full/Underflow Reset Enable bit (Stack Full/Underflow will not cause RESET)
+#pragma config LVP = ON         // Low Voltage ICSP Enable bit (Low Voltage ICSP enabled)
+
 /**********************************************************************
  * Definition dedicated to the local functions.
  **********************************************************************/
 #define DEFAULT_MODE       0
-
 
 /**********************************************************************
  * Function prototypes.
@@ -59,13 +69,14 @@ void ErrorHook(StatusType error);
 void PreTaskHook(void);
 void PostTaskHook(void);
 
+
 /**********************************************************************
  * RAM area of the main function.
  * Context area first followed by global variables.
  **********************************************************************/
 #pragma		udata	MAIN_RAM
 AppModeType SelectedMode;
-
+AlarmObject LedTimer;
 
 /**********************************************************************
  * -------------------------- main function ---------------------------
@@ -79,6 +90,11 @@ void main(void)
 {
   SelectedMode = DEFAULT_MODE;
   Init();
+  
+  DeclarAlarm(&LedTimer);
+  SetAlarmAction(GetAlarmID(LedTimer), ACTIVATETASK, CLOCKED);
+  SetAlarmTarget(GetAlarmID(LedTimer), LEDBLINKING);
+  SetRelAlarm(GetAlarmID(LedTimer), 10, 0);
   
   while(1)
   {
