@@ -1,0 +1,91 @@
+Searching 62 files for "activate task"
+
+0 matches
+
+Searching 62 files for "activatetask"
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\alarm.c:
+  285  
+  286  /**********************************************************************
+  287:  * Set the ACTION (ACTIVATETASK/SETEVENT) and TYPE (TIMER/COUNTER) to
+  288   * the alarm.
+  289   
+  ...
+  322  /**********************************************************************
+  323   * Specify the ID of the task to attach in case of alarm with 
+  324:  * ACTIVATETASK mode.
+  325   *
+  326   * @param ID         IN  ID of the alarm to update
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\alarm.h:
+   48  #define NULL               0x00
+   49  #define USED               0x01
+   50: #define ACTIVATETASK       0x02
+   51  #define SETEVENT           0x00
+   52  #define CLOCKED            0x04
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\HISTORY.txt:
+  101                       The wrong condition "if (alarm_ptr->flag > 1)"
+  102                       is not enough to set an EVENT.
+  103:                      Replaced by "if (alarm_ptr->flag & ACTIVATETASK)".
+  104  
+  105  
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c:
+   93    
+   94    DeclarAlarm(&LedTimer);
+   95:   SetAlarmAction(GetAlarmID(LedTimer), ACTIVATETASK, CLOCKED);
+   96    SetAlarmTarget(GetAlarmID(LedTimer), LEDBLINKING);
+   97    SetRelAlarm(GetAlarmID(LedTimer), 10, 0);
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\pro_man.c:
+  244   *                   never return otherwise
+  245   **********************************************************************/
+  246: StatusType ActivateTask (TaskType TaskID)
+  247  {
+  248    CGI;
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\pro_man.h:
+  190  StatusType GetTaskID (TaskRefType TaskID);
+  191  StatusType GetTaskState (TaskType TaskID, TaskStateRefType State);
+  192: StatusType ActivateTask (TaskType TaskID);
+  193  StatusType TerminateTask (void);
+  194  StatusType ChainTask (TaskType TaskID);
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\task.h:
+   50  #define LED_EVENT            4
+   51  
+   52: /* --- Task define ID for ActivateTask service ---- */
+   53  #define LED_ON               1
+   54  #define LEDBLINKING          2
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\timer.c:
+   35  /*   2002/11/10  [XM] SETEVENT condition modified :                   */
+   36  /*               "if (alarm_ptr->flag > 1)" changed by                */
+   37: /*               "if (alarm_ptr->flag & ACTIVATETASK)"                */
+   38  /*   2002/11/11  [XM] Because kernel and services are not             */
+   39  /*                    interruptible, add calls to CGI & SGI macros.   */
+   ..
+  128          {
+  129            ptr_task = &wait_1 + i;
+  130:           if (alarm_ptr->flag & ACTIVATETASK) /* ACTIVATETASK is set */
+  131            {
+  132              ptr_task = &tsk_1_state + i;
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\dist\18f452\production\PICOS.X.production.cof:
+    <binary>
+
+C:\Users\Vlad\Desktop\yazaki\yazaki_upt_lab_2017\Workspace\PICOS.X\dist\18f452\production\PICOS.X.production.map:
+   99                       Name    Address   Location    Storage File                     
+  100                  ---------  ---------  ---------  --------- ---------                
+  101:              ActivateTask   0x0017d6    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\pro_man.c
+  102                 AddOneTick   0x001b32    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\timer.c
+  103                CancelAlarm   0x000a22    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\alarm.c
+  ...
+  990             ___if_lbl00022   0x0017ca    program     static                          
+  991         ___return_lbl00013   0x0017ce    program     static                          
+  992:              ActivateTask   0x0017d6    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\pro_man.c
+  993           ___else_lbl00026   0x0017ee    program     static                          
+  994             ___if_lbl00025   0x0017f0    program     static                          
+
+14 matches across 10 files
