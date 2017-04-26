@@ -30,6 +30,7 @@
       <itemPath>tsk_led.c</itemPath>
       <itemPath>int.asm</itemPath>
       <itemPath>kernel.asm</itemPath>
+      <itemPath>tsk_led2.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -1848,7 +1849,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
         <languageToolchain>MPASMWIN</languageToolchain>
-        <languageToolchainVersion>5.72</languageToolchainVersion>
+        <languageToolchainVersion>5.71</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <compileType>

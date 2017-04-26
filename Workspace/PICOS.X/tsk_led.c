@@ -74,6 +74,5 @@ TASK(Led_ON)
   PORTEbits.RE0 = 1;
 
   while(1);
-  TerminateTask();
 }
  

@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm
+SOURCEFILES_QUOTED_IF_SPACED=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm tsk_led2.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/alarm.o.d ${OBJECTDIR}/boot.o.d ${OBJECTDIR}/even_man.o.d ${OBJECTDIR}/int_man.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/pro_man.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/tsk_led.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/kernel.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/tsk_led2.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/alarm.o.d ${OBJECTDIR}/boot.o.d ${OBJECTDIR}/even_man.o.d ${OBJECTDIR}/int_man.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/pro_man.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/tsk_led.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/kernel.o.d ${OBJECTDIR}/tsk_led2.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o
+OBJECTFILES=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/tsk_led2.o
 
 # Source Files
-SOURCEFILES=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm
+SOURCEFILES=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm tsk_led2.c
 
 
 CFLAGS=
@@ -199,6 +199,14 @@ ${OBJECTDIR}/tsk_led.o: tsk_led.c  nbproject/Makefile-${CND_CONF}.mk
 	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led.o 
 	@${FIXDEPS} "${OBJECTDIR}/tsk_led.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
+${OBJECTDIR}/tsk_led2.o: tsk_led2.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/tsk_led2.o.d 
+	@${RM} ${OBJECTDIR}/tsk_led2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/tsk_led2.o   tsk_led2.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led2.o 
+	@${FIXDEPS} "${OBJECTDIR}/tsk_led2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
 else
 ${OBJECTDIR}/alarm.o: alarm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -272,18 +280,26 @@ ${OBJECTDIR}/tsk_led.o: tsk_led.c  nbproject/Makefile-${CND_CONF}.mk
 	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led.o 
 	@${FIXDEPS} "${OBJECTDIR}/tsk_led.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
+${OBJECTDIR}/tsk_led2.o: tsk_led2.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/tsk_led2.o.d 
+	@${RM} ${OBJECTDIR}/tsk_led2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/tsk_led2.o   tsk_led2.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led2.o 
+	@${FIXDEPS} "${OBJECTDIR}/tsk_led2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
 endif
 
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: link
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    c:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/18f452.lkr
+dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk    18f452.lkr
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_LD} $(MP_EXTRA_LD_PRE) "c:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\18f452.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w -x -u_DEBUG -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"  -z__MPLAB_BUILD=1  -u_CRUNTIME -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_SIMULATOR=1 $(MP_LINKER_DEBUG_OPTION) -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
+	${MP_LD} $(MP_EXTRA_LD_PRE) "18f452.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w -x -u_DEBUG -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"  -z__MPLAB_BUILD=1  -u_CRUNTIME -z__MPLAB_DEBUG=1 -z__MPLAB_DEBUGGER_SIMULATOR=1 $(MP_LINKER_DEBUG_OPTION) -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
 else
-dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   c:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/18f452.lkr
+dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   18f452.lkr
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_LD} $(MP_EXTRA_LD_PRE) "c:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\18f452.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w  -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"  -z__MPLAB_BUILD=1  -u_CRUNTIME -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
+	${MP_LD} $(MP_EXTRA_LD_PRE) "18f452.lkr"  -p$(MP_PROCESSOR_OPTION_LD)  -w  -m"${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"  -z__MPLAB_BUILD=1  -u_CRUNTIME -l ${MP_CC_DIR}\\..\\lib  -o dist/${CND_CONF}/${IMAGE_TYPE}/PICOS.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  ${OBJECTFILES_QUOTED_IF_SPACED}   
 endif
 
 

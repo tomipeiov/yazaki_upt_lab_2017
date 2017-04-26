@@ -3,21 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/data/Poli/OSEK%20Curs/PICOS18_v1_11/18f452.lkr</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/getting_started.txt</file>
+            <file>file:/C:/data/Poli/OSEK%20Curs/PICOS18_v1_11/18f452.lkr</file>
+            <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/int_man.c</file>
             <file>file:/C:/data/Poli/OSEK%20Curs/PICOS18_v1_11/taskdesc.c</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/timer.c</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/alarm.c</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/nbproject/Makefile-C18_18F87K22.mk</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/main.c</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/even_man.c</file>
-            <file>file:/C:/data/Poli/OSEK%20Curs/PICOS18_v1_11/boot.c</file>
+            <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/device.inc</file>
+            <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/device.h</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/tsk_led.c</file>
+            <file>file:/C:/data/Poli/OSEK%20Curs/PICOS18_v1_11/boot.c</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/pro_man.c</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/Makefile</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/boot.c</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/18f452.lkr</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/int.asm</file>
+            <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/tsk_led2.c</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/taskdesc.c</file>
             <file>file:/C:/workarea/git/yazaki_upt_lab_2017/Workspace/PICOS.X/kernel.asm</file>
         </group>

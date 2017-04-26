@@ -44,6 +44,6 @@
 ;/* Please add here anything related to the specific target :          */
 
 ;/* Should be equal to .tempdata + MATH_DATA size (from map file)      */
-#define STACK_SIZE             0xFF
+#define STACK_SIZE             0x10
 
 #endif ;/* _DEVICE_INC */

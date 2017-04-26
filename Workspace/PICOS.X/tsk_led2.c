@@ -78,7 +78,7 @@ TASK(Led_blinking)
       PORTEbits.RE1 = 0;
       done = 0;
    }
-
+   //ActivateTask(LED_ON);
    TerminateTask();
 }
  
