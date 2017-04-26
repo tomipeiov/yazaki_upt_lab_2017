@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm tsk_led2.c
+SOURCEFILES_QUOTED_IF_SPACED=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm tsk_led2.c tsk_led3.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/tsk_led2.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/alarm.o.d ${OBJECTDIR}/boot.o.d ${OBJECTDIR}/even_man.o.d ${OBJECTDIR}/int_man.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/pro_man.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/tsk_led.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/kernel.o.d ${OBJECTDIR}/tsk_led2.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/tsk_led2.o ${OBJECTDIR}/tsk_led3.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/alarm.o.d ${OBJECTDIR}/boot.o.d ${OBJECTDIR}/even_man.o.d ${OBJECTDIR}/int_man.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/pro_man.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/timer.o.d ${OBJECTDIR}/tsk_led.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/kernel.o.d ${OBJECTDIR}/tsk_led2.o.d ${OBJECTDIR}/tsk_led3.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/tsk_led2.o
+OBJECTFILES=${OBJECTDIR}/alarm.o ${OBJECTDIR}/boot.o ${OBJECTDIR}/even_man.o ${OBJECTDIR}/int_man.o ${OBJECTDIR}/main.o ${OBJECTDIR}/pro_man.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/timer.o ${OBJECTDIR}/tsk_led.o ${OBJECTDIR}/int.o ${OBJECTDIR}/kernel.o ${OBJECTDIR}/tsk_led2.o ${OBJECTDIR}/tsk_led3.o
 
 # Source Files
-SOURCEFILES=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm tsk_led2.c
+SOURCEFILES=alarm.c boot.c even_man.c int_man.c main.c pro_man.c taskdesc.c timer.c tsk_led.c int.asm kernel.asm tsk_led2.c tsk_led3.c
 
 
 CFLAGS=
@@ -207,6 +207,14 @@ ${OBJECTDIR}/tsk_led2.o: tsk_led2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led2.o 
 	@${FIXDEPS} "${OBJECTDIR}/tsk_led2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
+${OBJECTDIR}/tsk_led3.o: tsk_led3.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/tsk_led3.o.d 
+	@${RM} ${OBJECTDIR}/tsk_led3.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/tsk_led3.o   tsk_led3.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led3.o 
+	@${FIXDEPS} "${OBJECTDIR}/tsk_led3.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
 else
 ${OBJECTDIR}/alarm.o: alarm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -287,6 +295,14 @@ ${OBJECTDIR}/tsk_led2.o: tsk_led2.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/tsk_led2.o   tsk_led2.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led2.o 
 	@${FIXDEPS} "${OBJECTDIR}/tsk_led2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
+${OBJECTDIR}/tsk_led3.o: tsk_led3.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/tsk_led3.o.d 
+	@${RM} ${OBJECTDIR}/tsk_led3.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -ms -oa-  -I ${MP_CC_DIR}\\..\\h  -fo ${OBJECTDIR}/tsk_led3.o   tsk_led3.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/tsk_led3.o 
+	@${FIXDEPS} "${OBJECTDIR}/tsk_led3.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
 endif
 

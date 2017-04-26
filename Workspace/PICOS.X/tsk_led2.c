@@ -65,7 +65,7 @@ char done;
  *
  **********************************************************************/
 #pragma		code	LED_BL_ROM
-
+unsigned int counter;
 TASK(Led_blinking)
 {
    if (done == 0)
@@ -78,7 +78,14 @@ TASK(Led_blinking)
       PORTEbits.RE1 = 0;
       done = 0;
    }
-   //ActivateTask(LED_ON);
+
+   counter++;
+   if (counter == 4)
+   {
+      SetEvent(LEDEVENT, LED_EVENT);
+      counter = 0;
+   }
+
    TerminateTask();
 }
  

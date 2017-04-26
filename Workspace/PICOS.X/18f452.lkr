@@ -72,7 +72,7 @@ SECTION    NAME=MAIN_ROM                  ROM=FREE
 
 SECTION    NAME=LED_ON_ROM                ROM=TASK
 SECTION    NAME=LED_BL_ROM                ROM=TASK
-
+SECTION    NAME=LED_EV_ROM                ROM=TASK
 
 // **************************************************************
 // * Describe the RAM physical memory organisation              *
@@ -94,8 +94,10 @@ SECTION    NAME=INT_RAM                   RAM=kernel
 SECTION    NAME=PROC_RAM                  RAM=kernel
 SECTION    NAME=COUNTER_RAM               RAM=kernel
 SECTION    NAME=MAIN_RAM                  RAM=free
+
 SECTION    NAME=LED_ON_RAM                RAM=task
 SECTION    NAME=LED_BL_RAM                RAM=task
+SECTION    NAME=LED_EV_RAM                RAM=task
 
 STACK SIZE=0x100 RAM=gpr5
 

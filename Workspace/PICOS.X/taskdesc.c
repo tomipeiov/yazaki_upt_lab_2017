@@ -62,6 +62,8 @@ DeclareRAM(ctx_led_on);
 DeclareTask(Led_blinking);
 DeclareRAM(ctx_led_bl);
 
+DeclareTask(Led_event);
+DeclareRAM(ctx_led_ev);
 /**********************************************************************
  * ---------------------- TASK DESCRIPTOR SECTION ---------------------
  **********************************************************************/
@@ -87,6 +89,17 @@ rom_desc_tsk rom_desc_led_BL = {
     0x02,                              /* id_tsk from 1 to 8          */
     &ctx_led_bl                        /* ctx_tsk in 16 bits          */
 };
+
+rom_desc_tsk rom_desc_led_EV = {
+    0x03,                              /* prioinit from 0 to 7        */
+    0x04,                              /* stacksize in word [32 bits] */
+    Led_event,                         /* adr_tsk in 16 bits          */
+    0x01,                              /* state at init phase         */
+    0x03,                              /* id_tsk from 1 to 8          */
+    &ctx_led_ev                        /* ctx_tsk in 16 bits          */
+}; 
+
+
 /**********************************************************************
  * --------------------- END TASK DESCRIPTOR SECTION ------------------
  **********************************************************************/

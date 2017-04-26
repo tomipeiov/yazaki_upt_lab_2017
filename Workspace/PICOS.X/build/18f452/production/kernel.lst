@@ -1,4 +1,4 @@
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE  1
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00003 ;/* File name: device.inc                                              */
                       00004 ;/*                                                                    */
                       00005 ;/* Since:     2003/08/03                                              */
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE  2
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00047 #define STACK_SIZE             0x10
                       00048 
                       00049 #endif ;/* _DEVICE_INC */
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE  3
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00099 
                       00100 #IFDEF PRETASKHOOK
                       00101         extern PreTaskHook
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE  4
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -234,7 +234,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000036 6AA0           00152                 clrf    PIE2
 000038 6AF2           00153                 clrf    INTCON
 00003A 8AF2           00154                 bsf     INTCON, 5
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE  5
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -293,7 +293,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000080 6EFE           00205                 movwf   TOSH
 000082 0E00           00206                 movlw   0                                 ; Store 0 in TOSU
 000084 6EFF           00207                 movwf   TOSU
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE  6
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -352,7 +352,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0000D8 86EF           00258                 bsf     INDF0, 3                          ; task scheduled
 0000DA 96E9           00259                 bcf     FSR0L, 3
 0000DC D???           00260                 bra     _parser_update_loop
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE  7
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -411,7 +411,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000118 D???           00311                 bra     _sched_clr_run                    ; running task is not found
 00011A 92EF           00312                 bcf     INDF0, 1                          ; task is no more running
                       00313                  
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE  8
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -470,7 +470,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000156 26F6           00364                 addwf   TBLPTRL, 1                        ; Next task located at @+7 bytes 
 000158 D???           00365                 bra     restore_ctx
                       00366 
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE  9
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -529,7 +529,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 0001D2 CFE0 F???      00417                 movff   BSR, temp
                       00418                 
 0001D6 0100           00419                 movlb   0
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 10
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 10
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -588,7 +588,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000214 A6EF           00470                 btfss   INDF0, 3                          ; skip if task scheduled
 000216 D???           00471                 bra     _scheduler_next
 000218 A2EF           00472                 btfss   INDF0, 1                          ; skip if task is running
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 11
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 11
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -647,7 +647,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00523 ; * of the stack.
                       00524 ; *
                       00525 ; **********************************************************************/
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 12
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 12
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -706,7 +706,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 00029E CFE8 F???      00576                 movff   WREG, id                          ; 
 0002A2 CFEA F???      00577                 movff   FSR0H, temp2                      ; but id is really the ID of task
 0002A6 CFE9 F???      00578                 movff   FSR0L, temp
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 13
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 13
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -765,7 +765,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00629 ; * Set the content of the stack just after the CTX SAVE area of the task.
                       00630 ; *
                       00631 ; **********************************************************************/
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 14
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 14
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -788,7 +788,7 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
 000324 0012           00646                 return
                       00647 
                       00648                 END                                       ; Directive 'end of program'
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 15
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 15
 
 
 SYMBOL TABLE
@@ -847,7 +847,7 @@ CCP2CON                           00000FBA
 CCP2IE                            00000000
 CCP2IF                            00000000
 CCP2IP                            00000000
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 16
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 16
 
 
 SYMBOL TABLE
@@ -906,7 +906,7 @@ EEIE                              00000004
 EEIF                              00000004
 EEIP                              00000004
 EEPGD                             00000007
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 17
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 17
 
 
 SYMBOL TABLE
@@ -965,7 +965,7 @@ INTCON                            00000FF2
 INTCON1                           00000FF2
 INTCON2                           00000FF1
 INTCON3                           00000FF0
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 18
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 18
 
 
 SYMBOL TABLE
@@ -1024,7 +1024,7 @@ LVDIF                             00000002
 LVDIN                             00000005
 LVDIP                             00000002
 LVDL0                             00000000
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 19
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 19
 
 
 SYMBOL TABLE
@@ -1083,7 +1083,7 @@ PORTA                             00000F80
 PORTB                             00000F81
 PORTC                             00000F82
 PORTD                             00000F83
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 20
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 20
 
 
 SYMBOL TABLE
@@ -1142,7 +1142,7 @@ RC2                               00000002
 RC3                               00000003
 RC4                               00000004
 RC5                               00000005
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 21
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 21
 
 
 SYMBOL TABLE
@@ -1201,7 +1201,7 @@ SREN                              00000005
 SS                                00000005
 SSPADD                            00000FC8
 SSPBUF                            00000FC9
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 22
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 22
 
 
 SYMBOL TABLE
@@ -1260,7 +1260,7 @@ T2CON                             00000FCA
 T3CCP1                            00000003
 T3CCP2                            00000006
 T3CKPS0                           00000004
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 23
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 23
 
 
 SYMBOL TABLE
@@ -1319,7 +1319,7 @@ TRISA2                            00000002
 TRISA3                            00000003
 TRISA4                            00000004
 TRISA5                            00000005
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 24
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 24
 
 
 SYMBOL TABLE
@@ -1378,7 +1378,7 @@ WDTCON                            00000FD1
 WR                                00000001
 WREG                              00000FE8
 WREN                              00000002
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 25
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 25
 
 
 SYMBOL TABLE
@@ -1437,7 +1437,7 @@ _EBTRB_OFF_7H                     000000FF
 _EBTRB_ON_7H                      000000BF
 _ECIO_OSC                         000000FD
 _ECIO_OSC_1H                      000000FD
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 26
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 26
 
 
 SYMBOL TABLE
@@ -1496,7 +1496,7 @@ _WRTC_ON_6H                       000000DF
 _WRTD_OFF_6H                      000000FF
 _WRTD_ON_6H                       0000007F
 _XT_OSC                           000000F9
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 27
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 27
 
 
 SYMBOL TABLE
@@ -1555,7 +1555,7 @@ tsk_2_stack                       00000000
 tsk_2_state                       00000000
 tsk_3_stack                       00000000
 tsk_3_state                       00000000
-MPASM 5.54                        KERNEL.ASM   4-26-2017  11:20:01         PAGE 28
+MPASM 5.54                        KERNEL.ASM   4-26-2017  11:33:25         PAGE 28
 
 
 SYMBOL TABLE

@@ -31,6 +31,7 @@
       <itemPath>int.asm</itemPath>
       <itemPath>kernel.asm</itemPath>
       <itemPath>tsk_led2.c</itemPath>
+      <itemPath>tsk_led3.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

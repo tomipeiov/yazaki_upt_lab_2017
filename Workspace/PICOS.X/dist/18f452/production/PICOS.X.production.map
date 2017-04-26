@@ -1,12 +1,12 @@
 MPLINK 5.00, LINKER
-Linker Map File - Created Wed Apr 26 11:20:02 2017
+Linker Map File - Created Wed Apr 26 11:38:03 2017
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
                 ---------  ---------  ---------  ---------  ---------
                  BOOT_ROM       code   0x000000    program   0x000006
                       INT       code   0x000008    program   0x000004
-                 DESC_ROM    romdata   0x000050    program   0x000018
+                 DESC_ROM    romdata   0x000050    program   0x000020
                KERNEL_ROM       code   0x000100    program   0x000326
                 ALARM_ROM       code   0x000500    program   0x000aa2
                  EVEN_ROM       code   0x000fa2    program   0x000590
@@ -14,25 +14,28 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                  PROC_ROM       code   0x00166a    program   0x00052e
               COUNTER_ROM       code   0x001b98    program   0x000354
                LED_ON_ROM       code   0x002000    program   0x000004
-               LED_BL_ROM       code   0x002004    program   0x000016
+               LED_BL_ROM       code   0x002004    program   0x00003c
+               LED_EV_ROM       code   0x002040    program   0x000018
                  MAIN_ROM       code   0x007000    program   0x0000a6
                    .cinit    romdata   0x0070a6    program   0x000002
                     .code       code   0x0070a8    program   0x000020
+       .romdata_pro_man.o    romdata   0x0070c8    program   0x000000
           .code_pro_man.o       code   0x0070c8    program   0x000000
       .idata_taskdesc.o_i    romdata   0x0070c8    program   0x000000
       .romdata_taskdesc.o    romdata   0x0070c8    program   0x000000
-       .romdata_pro_man.o    romdata   0x0070c8    program   0x000000
-       .idata_pro_man.o_i    romdata   0x0070c8    program   0x000000
          .code_taskdesc.o       code   0x0070c8    program   0x000000
          .idata_timer.o_i    romdata   0x0070c8    program   0x000000
          .romdata_timer.o    romdata   0x0070c8    program   0x000000
             .code_timer.o       code   0x0070c8    program   0x000000
+         .code_tsk_led3.o       code   0x0070c8    program   0x000000
        .idata_tsk_led.o_i    romdata   0x0070c8    program   0x000000
+      .romdata_tsk_led3.o    romdata   0x0070c8    program   0x000000
        .romdata_tsk_led.o    romdata   0x0070c8    program   0x000000
           .code_tsk_led.o       code   0x0070c8    program   0x000000
-      .idata_tsk_led2.o_i    romdata   0x0070c8    program   0x000000
-      .romdata_tsk_led2.o    romdata   0x0070c8    program   0x000000
+      .idata_tsk_led3.o_i    romdata   0x0070c8    program   0x000000
          .code_tsk_led2.o       code   0x0070c8    program   0x000000
+      .romdata_tsk_led2.o    romdata   0x0070c8    program   0x000000
+      .idata_tsk_led2.o_i    romdata   0x0070c8    program   0x000000
          .idata_alarm.o_i    romdata   0x0070c8    program   0x000000
          .romdata_alarm.o    romdata   0x0070c8    program   0x000000
             .code_alarm.o       code   0x0070c8    program   0x000000
@@ -48,6 +51,7 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
           .idata_main.o_i    romdata   0x0070c8    program   0x000000
           .romdata_main.o    romdata   0x0070c8    program   0x000000
              .code_main.o       code   0x0070c8    program   0x000000
+       .idata_pro_man.o_i    romdata   0x0070c8    program   0x000000
     .config_300001_main.o    romdata   0x300001    program   0x000001
     .config_300002_main.o    romdata   0x300002    program   0x000001
     .config_300003_main.o    romdata   0x300003    program   0x000001
@@ -63,8 +67,8 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                 MATH_DATA      udata   0x000004       data   0x000000
                  EVEN_RAM      udata   0x000080       data   0x000004
                KERNEL_RAM      udata   0x000084       data   0x000009
-              COUNTER_RAM      udata   0x00008d       data   0x000000
                   INT_RAM      udata   0x00008d       data   0x000000
+              COUNTER_RAM      udata   0x00008d       data   0x000000
                EVENT_MASK      udata   0x000090       data   0x000008
                 WAIT_MASK      udata   0x000098       data   0x000008
                 STACK_RAM      udata   0x0000a0       data   0x000008
@@ -72,28 +76,31 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                 ALARM_RAM      udata   0x0000b0       data   0x000006
                  PROC_RAM      udata   0x0000b6       data   0x000007
                LED_ON_RAM      udata   0x000100       data   0x00001b
-               LED_BL_RAM      udata   0x00011b       data   0x00001c
+               LED_BL_RAM      udata   0x00011b       data   0x00001e
+               LED_EV_RAM      udata   0x000139       data   0x00001b
                  MAIN_RAM      udata   0x000400       data   0x00000f
-           .udata_alarm.o      udata   0x00040f       data   0x000000
-        .idata_tsk_led2.o      idata   0x00040f       data   0x000000
-        .udata_tsk_led2.o      udata   0x00040f       data   0x000000
-           .idata_alarm.o      idata   0x00040f       data   0x000000
-            .udata_boot.o      udata   0x00040f       data   0x000000
-         .idata_tsk_led.o      idata   0x00040f       data   0x000000
-         .udata_tsk_led.o      udata   0x00040f       data   0x000000
-            .idata_boot.o      idata   0x00040f       data   0x000000
-           .idata_timer.o      idata   0x00040f       data   0x000000
            .udata_timer.o      udata   0x00040f       data   0x000000
+           .idata_timer.o      idata   0x00040f       data   0x000000
+         .udata_tsk_led.o      udata   0x00040f       data   0x000000
+         .idata_tsk_led.o      idata   0x00040f       data   0x000000
+        .udata_tsk_led2.o      udata   0x00040f       data   0x000000
+        .idata_tsk_led2.o      idata   0x00040f       data   0x000000
+        .udata_tsk_led3.o      udata   0x00040f       data   0x000000
+        .idata_tsk_led3.o      idata   0x00040f       data   0x000000
         .idata_taskdesc.o      idata   0x00040f       data   0x000000
         .udata_taskdesc.o      udata   0x00040f       data   0x000000
-        .udata_even_man.o      udata   0x00040f       data   0x000000
-        .idata_even_man.o      idata   0x00040f       data   0x000000
          .idata_pro_man.o      idata   0x00040f       data   0x000000
          .udata_pro_man.o      udata   0x00040f       data   0x000000
-         .udata_int_man.o      udata   0x00040f       data   0x000000
             .idata_main.o      idata   0x00040f       data   0x000000
             .udata_main.o      udata   0x00040f       data   0x000000
          .idata_int_man.o      idata   0x00040f       data   0x000000
+         .udata_int_man.o      udata   0x00040f       data   0x000000
+        .idata_even_man.o      idata   0x00040f       data   0x000000
+        .udata_even_man.o      udata   0x00040f       data   0x000000
+            .idata_boot.o      idata   0x00040f       data   0x000000
+            .udata_boot.o      udata   0x00040f       data   0x000000
+           .idata_alarm.o      idata   0x00040f       data   0x000000
+           .udata_alarm.o      udata   0x00040f       data   0x000000
                    .stack      udata   0x000500       data   0x000100
             SFR_UNBANKED0      udata   0x000f80       data   0x000080
 
@@ -104,15 +111,15 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                            ---------   ---------      
                             0x000000    0x000005      
                             0x000008    0x00000b      
-                            0x000050    0x000067      
+                            0x000050    0x00006f      
                             0x000100    0x000425      
                             0x000500    0x001eeb      
-                            0x002000    0x002019      
+                            0x002000    0x002057      
                             0x007000    0x0070c7      
                             0x300001    0x300003      
                             0x300005    0x300006      
                             0x300008    0x30000d      
-            7713 out of 32792 program addresses used, program memory utilization is 23%
+            7783 out of 32792 program addresses used, program memory utilization is 23%
 
 
 
@@ -143,6 +150,7 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                      Init   0x007064    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
                    Led_ON   0x002000    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led.c
              Led_blinking   0x002004    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
+                Led_event   0x002040    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led3.c
              PostTaskHook   0x0070a4    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
               PreTaskHook   0x0070a2    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
               Save_STKPTR   0x00166a    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\pro_man.c
@@ -164,29 +172,29 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
          ___else_lbl00004   0x000578    program     static                          
          ___else_lbl00006   0x001056    program     static                          
          ___else_lbl00007   0x0016fa    program     static                          
-         ___else_lbl00009   0x000622    program     static                          
          ___else_lbl00009   0x0010c8    program     static                          
+         ___else_lbl00009   0x000622    program     static                          
          ___else_lbl00010   0x00173c    program     static                          
          ___else_lbl00011   0x0010d0    program     static                          
-         ___else_lbl00012   0x001764    program     static                          
          ___else_lbl00012   0x00064a    program     static                          
+         ___else_lbl00012   0x001764    program     static                          
          ___else_lbl00013   0x001e16    program     static                          
-         ___else_lbl00015   0x001134    program     static                          
          ___else_lbl00015   0x00178a    program     static                          
+         ___else_lbl00015   0x001134    program     static                          
          ___else_lbl00016   0x00069c    program     static                          
          ___else_lbl00018   0x001152    program     static                          
          ___else_lbl00019   0x00180c    program     static                          
          ___else_lbl00020   0x00077a    program     static                          
          ___else_lbl00021   0x001178    program     static                          
-         ___else_lbl00023   0x0007b2    program     static                          
          ___else_lbl00023   0x001838    program     static                          
+         ___else_lbl00023   0x0007b2    program     static                          
          ___else_lbl00025   0x00122e    program     static                          
-         ___else_lbl00026   0x0007d8    program     static                          
          ___else_lbl00026   0x00185e    program     static                          
+         ___else_lbl00026   0x0007d8    program     static                          
          ___else_lbl00029   0x00125a    program     static                          
          ___else_lbl00030   0x000828    program     static                          
-         ___else_lbl00032   0x001914    program     static                          
          ___else_lbl00032   0x001280    program     static                          
+         ___else_lbl00032   0x001914    program     static                          
          ___else_lbl00034   0x0008ca    program     static                          
          ___else_lbl00035   0x001932    program     static                          
          ___else_lbl00036   0x0012f0    program     static                          
@@ -202,8 +210,8 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
          ___else_lbl00049   0x0013bc    program     static                          
          ___else_lbl00050   0x000a14    program     static                          
          ___else_lbl00051   0x001ade    program     static                          
-         ___else_lbl00053   0x000a3a    program     static                          
          ___else_lbl00053   0x0014d2    program     static                          
+         ___else_lbl00053   0x000a3a    program     static                          
          ___else_lbl00054   0x001afc    program     static                          
          ___else_lbl00055   0x0014ba    program     static                          
          ___else_lbl00056   0x001b42    program     static                          
@@ -259,39 +267,39 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
           ___for_lbl00051   0x0014e6    program     static                          
           ___for_lbl00057   0x0013f6    program     static                          
            ___if_lbl00001   0x00051c    program     static                          
-           ___if_lbl00001   0x001bb6    program     static                          
            ___if_lbl00001   0x000fbc    program     static                          
+           ___if_lbl00001   0x001bb6    program     static                          
            ___if_lbl00003   0x00057a    program     static                          
            ___if_lbl00005   0x001c38    program     static                          
            ___if_lbl00005   0x00057e    program     static                          
            ___if_lbl00005   0x001058    program     static                          
-           ___if_lbl00006   0x007082    program     static                          
            ___if_lbl00006   0x0016fc    program     static                          
-           ___if_lbl00007   0x00105c    program     static                          
+           ___if_lbl00006   0x007082    program     static                          
            ___if_lbl00007   0x001cc0    program     static                          
-           ___if_lbl00008   0x001d16    program     static                          
+           ___if_lbl00007   0x00105c    program     static                          
            ___if_lbl00008   0x0010ca    program     static                          
+           ___if_lbl00008   0x001d16    program     static                          
            ___if_lbl00008   0x000624    program     static                          
            ___if_lbl00009   0x00174c    program     static                          
            ___if_lbl00010   0x001106    program     static                          
-           ___if_lbl00011   0x001766    program     static                          
            ___if_lbl00011   0x00064c    program     static                          
+           ___if_lbl00011   0x001766    program     static                          
            ___if_lbl00011   0x001e9c    program     static                          
            ___if_lbl00012   0x001106    program     static                          
            ___if_lbl00012   0x001e9c    program     static                          
            ___if_lbl00014   0x001136    program     static                          
-           ___if_lbl00014   0x001e9c    program     static                          
            ___if_lbl00014   0x00178c    program     static                          
+           ___if_lbl00014   0x001e9c    program     static                          
            ___if_lbl00015   0x00069e    program     static                          
-           ___if_lbl00016   0x001eaa    program     static                          
            ___if_lbl00016   0x00113a    program     static                          
-           ___if_lbl00017   0x001154    program     static                          
+           ___if_lbl00016   0x001eaa    program     static                          
            ___if_lbl00017   0x0006a2    program     static                          
+           ___if_lbl00017   0x001154    program     static                          
            ___if_lbl00018   0x00180e    program     static                          
            ___if_lbl00018   0x000762    program     static                          
            ___if_lbl00019   0x00077c    program     static                          
-           ___if_lbl00020   0x001812    program     static                          
            ___if_lbl00020   0x00117a    program     static                          
+           ___if_lbl00020   0x001812    program     static                          
            ___if_lbl00021   0x000780    program     static                          
            ___if_lbl00022   0x0007b4    program     static                          
            ___if_lbl00022   0x00183a    program     static                          
@@ -302,9 +310,9 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
            ___if_lbl00028   0x00125c    program     static                          
            ___if_lbl00029   0x0018ee    program     static                          
            ___if_lbl00029   0x00082a    program     static                          
-           ___if_lbl00031   0x00082e    program     static                          
-           ___if_lbl00031   0x001916    program     static                          
            ___if_lbl00031   0x001282    program     static                          
+           ___if_lbl00031   0x001916    program     static                          
+           ___if_lbl00031   0x00082e    program     static                          
            ___if_lbl00032   0x0008b2    program     static                          
            ___if_lbl00033   0x0008cc    program     static                          
            ___if_lbl00034   0x001934    program     static                          
@@ -325,24 +333,24 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
            ___if_lbl00045   0x001398    program     static                          
            ___if_lbl00046   0x0009de    program     static                          
            ___if_lbl00047   0x001a90    program     static                          
+           ___if_lbl00048   0x001ab4    program     static                          
            ___if_lbl00048   0x0013be    program     static                          
            ___if_lbl00048   0x0009e2    program     static                          
-           ___if_lbl00048   0x001ab4    program     static                          
            ___if_lbl00049   0x000a16    program     static                          
            ___if_lbl00050   0x001ae0    program     static                          
-           ___if_lbl00052   0x0014d4    program     static                          
            ___if_lbl00052   0x000a3c    program     static                          
+           ___if_lbl00052   0x0014d4    program     static                          
            ___if_lbl00053   0x001afe    program     static                          
            ___if_lbl00054   0x0014d8    program     static                          
            ___if_lbl00055   0x001b44    program     static                          
            ___if_lbl00056   0x0014d8    program     static                          
            ___if_lbl00056   0x000a8a    program     static                          
-           ___if_lbl00058   0x001508    program     static                          
            ___if_lbl00058   0x000a8e    program     static                          
+           ___if_lbl00058   0x001508    program     static                          
            ___if_lbl00059   0x000ac8    program     static                          
            ___if_lbl00060   0x00150c    program     static                          
-           ___if_lbl00061   0x001526    program     static                          
            ___if_lbl00061   0x000acc    program     static                          
+           ___if_lbl00061   0x001526    program     static                          
            ___if_lbl00062   0x000b00    program     static                          
            ___if_lbl00065   0x000b26    program     static                          
            ___if_lbl00069   0x000b88    program     static                          
@@ -370,17 +378,17 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
            ___if_lbl00118   0x000f24    program     static                          
            ___if_lbl00121   0x000f4a    program     static                          
            ___if_lbl00125   0x000f96    program     static                          
-       ___return_lbl00000   0x001158    program     static                          
-       ___return_lbl00000   0x001ed4    program     static                          
        ___return_lbl00000   0x000004    program     static                          
+       ___return_lbl00000   0x001ed4    program     static                          
        ___return_lbl00000   0x000628    program     static                          
+       ___return_lbl00000   0x001158    program     static                          
        ___return_lbl00003   0x007086    program     static                          
        ___return_lbl00005   0x00176a    program     static                          
        ___return_lbl00010   0x0007b8    program     static                          
        ___return_lbl00013   0x00183e    program     static                          
        ___return_lbl00019   0x001260    program     static                          
-       ___return_lbl00024   0x00191a    program     static                          
        ___return_lbl00024   0x000908    program     static                          
+       ___return_lbl00024   0x00191a    program     static                          
        ___return_lbl00030   0x00139c    program     static                          
        ___return_lbl00033   0x0019ec    program     static                          
        ___return_lbl00038   0x000a1a    program     static                          
@@ -433,17 +441,17 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                __config_7   0x30000a    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
                __config_8   0x30000b    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
                __config_9   0x30000c    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
+               __tmplbl_0   0x001004    program     static                          
                __tmplbl_0   0x001c94    program     static                          
                __tmplbl_0   0x00172a    program     static                          
-               __tmplbl_0   0x001004    program     static                          
                __tmplbl_1   0x001714    program     static                          
                __tmplbl_1   0x001c7e    program     static                          
                __tmplbl_1   0x001198    program     static                          
                __tmplbl_2   0x00170c    program     static                          
-               __tmplbl_2   0x001d66    program     static                          
                __tmplbl_2   0x0012a0    program     static                          
-               __tmplbl_3   0x001724    program     static                          
+               __tmplbl_2   0x001d66    program     static                          
                __tmplbl_3   0x001406    program     static                          
+               __tmplbl_3   0x001724    program     static                          
                __tmplbl_4   0x0017aa    program     static                          
                __tmplbl_5   0x0018a6    program     static                          
                __tmplbl_6   0x00197a    program     static                          
@@ -479,7 +487,7 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                    _while   0x000300    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
                      boot   0x000000    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\boot.c
                 compare_l   0x0070be    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                      end   0x000060    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
+                      end   0x000068    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
                    loop_h   0x0070b6    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    loop_l   0x0070c0    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      main   0x007000    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
@@ -489,6 +497,7 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
             restore_stack   0x000266    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
        restore_stack_next   0x000274    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
           rom_desc_led_BL   0x000058    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
+          rom_desc_led_EV   0x000060    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
           rom_desc_led_ON   0x000050    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
                 store_adr   0x0003cc    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
                 store_ctx   0x0003bc    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
@@ -682,7 +691,9 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                 alarm_ptr   0x0000b4       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\alarm.c
                   appmode   0x0000bc       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\pro_man.c
                 call_from   0x00008a       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
+                  counter   0x000137       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
                ctx_led_bl   0x00011b       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
+               ctx_led_ev   0x000139       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led3.c
                ctx_led_on   0x000100       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led.c
                      done   0x000136       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
                   event_1   0x000090       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\even_man.c
@@ -700,10 +711,11 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                    permut   0x000089       data     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
                  ptr_task   0x000080       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\even_man.c
              stack_led_bl   0x000126       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
+             stack_led_ev   0x000144       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led3.c
              stack_led_on   0x00010b       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led.c
                stack_size   0x000087       data     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
-                     temp   0x000085       data     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
                      temp   0x000082       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\even_man.c
+                     temp   0x000085       data     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
                     temp2   0x000088       data     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
                 tmp_alarm   0x0000b0       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\alarm.c
               tsk_1_stack   0x0000a0       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\pro_man.c
@@ -740,7 +752,8 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
        ___return_lbl00000   0x000004    program     static                          
           rom_desc_led_ON   0x000050    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
           rom_desc_led_BL   0x000058    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
-                      end   0x000060    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
+          rom_desc_led_EV   0x000060    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
+                      end   0x000068    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c
                   _kernel   0x000100    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
               _k_init_RAM   0x00010e    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
               _k_init_STK   0x00011c    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\kernel.asm
@@ -784,8 +797,8 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
            ___if_lbl00001   0x00051c    program     static                          
          ___else_lbl00004   0x000578    program     static                          
            ___if_lbl00003   0x00057a    program     static                          
-        ___while_lbl00006   0x00057e    program     static                          
            ___if_lbl00005   0x00057e    program     static                          
+        ___while_lbl00006   0x00057e    program     static                          
         ___while_lbl00007   0x0005b0    program     static                          
          ___else_lbl00009   0x000622    program     static                          
            ___if_lbl00008   0x000624    program     static                          
@@ -911,8 +924,8 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
        ___return_lbl00110   0x000f28    program     static                          
                Delay40MHz   0x000f30    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\alarm.c
          ___else_lbl00122   0x000f48    program     static                          
-           ___if_lbl00121   0x000f4a    program     static                          
         ___while_lbl00123   0x000f4a    program     static                          
+           ___if_lbl00121   0x000f4a    program     static                          
         ___while_lbl00124   0x000f7c    program     static                          
          ___else_lbl00126   0x000f94    program     static                          
            ___if_lbl00125   0x000f96    program     static                          
@@ -978,8 +991,8 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
          ___else_lbl00055   0x0014ba    program     static                          
          ___else_lbl00053   0x0014d2    program     static                          
            ___if_lbl00052   0x0014d4    program     static                          
-           ___if_lbl00056   0x0014d8    program     static                          
            ___if_lbl00054   0x0014d8    program     static                          
+           ___if_lbl00056   0x0014d8    program     static                          
           ___for_lbl00050   0x0014e0    program     static                          
           ___for_lbl00051   0x0014e6    program     static                          
          ___else_lbl00059   0x001506    program     static                          
@@ -1076,30 +1089,31 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
           ___for_lbl00015   0x001d52    program     static                          
                __tmplbl_2   0x001d66    program     static                          
          ___else_lbl00013   0x001e16    program     static                          
-           ___if_lbl00012   0x001e9c    program     static                          
            ___if_lbl00011   0x001e9c    program     static                          
+           ___if_lbl00012   0x001e9c    program     static                          
            ___if_lbl00014   0x001e9c    program     static                          
           ___for_lbl00009   0x001ea4    program     static                          
-           ___if_lbl00016   0x001eaa    program     static                          
           ___for_lbl00010   0x001eaa    program     static                          
+           ___if_lbl00016   0x001eaa    program     static                          
         ___while_lbl00004   0x001ecc    program     static                          
        ___return_lbl00000   0x001ed4    program     static                          
                    Led_ON   0x002000    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led.c
              Led_blinking   0x002004    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
+                Led_event   0x002040    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led3.c
                      main   0x007000    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
                      Init   0x007064    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
         ___while_lbl00004   0x007072    program     static                          
            ___if_lbl00006   0x007082    program     static                          
-        ___while_lbl00005   0x007086    program     static                          
        ___return_lbl00003   0x007086    program     static                          
+        ___while_lbl00005   0x007086    program     static                          
               StartupHook   0x007088    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
              ShutdownHook   0x00708a    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
                 ErrorHook   0x007096    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
               PreTaskHook   0x0070a2    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
              PostTaskHook   0x0070a4    program     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
             __zero_memory   0x0070a8    program     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                   loop_h   0x0070b6    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                zero_block   0x0070b6    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                   loop_h   0x0070b6    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                 compare_l   0x0070be    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    loop_l   0x0070c0    program     static E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                __config_0   0x300001    program     static C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
@@ -1177,28 +1191,31 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                ctx_led_bl   0x00011b       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
              stack_led_bl   0x000126       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
                      done   0x000136       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
+                  counter   0x000137       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led2.c
+               ctx_led_ev   0x000139       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led3.c
+             stack_led_ev   0x000144       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\tsk_led3.c
              SelectedMode   0x000400       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
                  LedTimer   0x000401       data     extern C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\main.c
-                PORTAbits   0x000f80       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     PORTA   0x000f80       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                PORTBbits   0x000f81       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                PORTAbits   0x000f80       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     PORTB   0x000f81       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                PORTCbits   0x000f82       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                PORTBbits   0x000f81       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     PORTC   0x000f82       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                PORTCbits   0x000f82       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     PORTD   0x000f83       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                 PORTDbits   0x000f83       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                PORTEbits   0x000f84       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     PORTE   0x000f84       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                PORTEbits   0x000f84       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      LATA   0x000f89       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  LATAbits   0x000f89       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                 LATBbits   0x000f8a       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      LATB   0x000f8a       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                 LATCbits   0x000f8b       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                 LATBbits   0x000f8a       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      LATC   0x000f8b       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                     LATD   0x000f8c       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                 LATCbits   0x000f8b       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  LATDbits   0x000f8c       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                     LATE   0x000f8d       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                     LATD   0x000f8c       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  LATEbits   0x000f8d       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                     LATE   0x000f8d       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  DDRAbits   0x000f92       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      DDRA   0x000f92       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                 TRISAbits   0x000f92       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
@@ -1207,14 +1224,14 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                      DDRB   0x000f93       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                 TRISBbits   0x000f93       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     TRISB   0x000f93       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                 DDRCbits   0x000f94       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                     DDRC   0x000f94       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                 TRISCbits   0x000f94       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     TRISC   0x000f94       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                     DDRD   0x000f95       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                 DDRDbits   0x000f95       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                     DDRC   0x000f94       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                 DDRCbits   0x000f94       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                 TRISDbits   0x000f95       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     TRISD   0x000f95       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                 DDRDbits   0x000f95       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                     DDRD   0x000f95       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     TRISE   0x000f96       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                 TRISEbits   0x000f96       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  DDREbits   0x000f96       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
@@ -1227,10 +1244,10 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                      IPR1   0x000f9f       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      PIE2   0x000fa0       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  PIE2bits   0x000fa0       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                     PIR2   0x000fa1       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  PIR2bits   0x000fa1       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                     IPR2   0x000fa2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                     PIR2   0x000fa1       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  IPR2bits   0x000fa2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                     IPR2   0x000fa2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                EECON1bits   0x000fa6       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    EECON1   0x000fa6       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    EECON2   0x000fa7       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
@@ -1282,18 +1299,18 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                     TMR1H   0x000fcf       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      RCON   0x000fd0       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  RCONbits   0x000fd0       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-               WDTCONbits   0x000fd1       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    WDTCON   0x000fd1       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-               LVDCONbits   0x000fd2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+               WDTCONbits   0x000fd1       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    LVDCON   0x000fd2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-               OSCCONbits   0x000fd3       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+               LVDCONbits   0x000fd2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    OSCCON   0x000fd3       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                    T0CON   0x000fd5       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+               OSCCONbits   0x000fd3       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                 T0CONbits   0x000fd5       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                    T0CON   0x000fd5       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     TMR0L   0x000fd6       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     TMR0H   0x000fd7       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                   STATUS   0x000fd8       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                STATUSbits   0x000fd8       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                   STATUS   0x000fd8       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     FSR2L   0x000fd9       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      FSR2   0x000fd9       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     FSR2H   0x000fda       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
@@ -1303,16 +1320,16 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
                  POSTINC2   0x000fde       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     INDF2   0x000fdf       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                       BSR   0x000fe0       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                     FSR1   0x000fe1       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     FSR1L   0x000fe1       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                     FSR1   0x000fe1       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     FSR1H   0x000fe2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    PLUSW1   0x000fe3       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                   PREINC1   0x000fe4       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  POSTDEC1   0x000fe5       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                  POSTINC1   0x000fe6       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     INDF1   0x000fe7       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                     WREG   0x000fe8       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                         W   0x000fe8       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                     WREG   0x000fe8       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      FSR0   0x000fe9       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     FSR0L   0x000fe9       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     FSR0H   0x000fea       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
@@ -1329,22 +1346,22 @@ Linker Map File - Created Wed Apr 26 11:20:02 2017
               INTCON1bits   0x000ff2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                   INTCON1   0x000ff2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    INTCON   0x000ff2       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                     PROD   0x000ff3       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     PRODL   0x000ff3       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                     PROD   0x000ff3       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                     PRODH   0x000ff4       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    TABLAT   0x000ff5       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                   TBLPTR   0x000ff6       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                   TBLPTRL   0x000ff6       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                   TBLPTR   0x000ff6       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                   TBLPTRH   0x000ff7       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                   TBLPTRU   0x000ff8       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                      PCL   0x000ff9       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                        PC   0x000ff9       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                      PCL   0x000ff9       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    PCLATH   0x000ffa       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    PCLATU   0x000ffb       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-               STKPTRbits   0x000ffc       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                    STKPTR   0x000ffc       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
-                      TOS   0x000ffd       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+               STKPTRbits   0x000ffc       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      TOSL   0x000ffd       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
+                      TOS   0x000ffd       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      TOSH   0x000ffe       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
                      TOSU   0x000fff       data     extern E:\3.46\pic18-lt\cxx-framework\src\traditional\proc\p18f452.asm
 
