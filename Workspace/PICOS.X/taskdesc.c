@@ -76,7 +76,7 @@ rom_desc_tsk rom_desc_man = {
 	0x05,                              /* prioinit from 0 to 7        */
 	0x04,                              /* stacksize in word [32 bits] */
 	Man,                            /* adr_tsk in 16 bits          */
-	0x01,                              /* state at init phase         */
+	0x00,                              /* state at init phase         */
 	0x03,                            /* id_tsk from 1 to 8          */
 	&ctx_man                        /* ctx_tsk in 16 bits          */
 };

@@ -74,10 +74,7 @@ AlarmRefObject alarm_ptr;
  * @param a_alarm    IN  Reference of the new alarm
  * @return status    Always E_OK 
  **********************************************************************/
-StatusType DeclarAlarm(AlarmRefObject al)
-{
-    
-}
+
 StatusType DeclarAlarm(AlarmRefObject a_alarm)
 {
   char i;
