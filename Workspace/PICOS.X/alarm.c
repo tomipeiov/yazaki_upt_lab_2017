@@ -61,7 +61,8 @@ int* tmp_alarm;
 AlarmRefObject liste_alarm;
 AlarmRefObject alarm_ptr;
 
-
+//Aici am declarat alarma
+//AlarmRefObject 
 /**********************************************************************
  * RAM area of the alarm manager.
  **********************************************************************/
@@ -73,6 +74,10 @@ AlarmRefObject alarm_ptr;
  * @param a_alarm    IN  Reference of the new alarm
  * @return status    Always E_OK 
  **********************************************************************/
+StatusType DeclarAlarm(AlarmRefObject al)
+{
+    
+}
 StatusType DeclarAlarm(AlarmRefObject a_alarm)
 {
   char i;
