@@ -55,7 +55,8 @@
  **********************************************************************/
 #pragma		udata	LED_BL_RAM
 /* Always context task area before */
-ctx_tsk ctx_led_bl;
+ctx_tsk ctx_led_bl, ctx_Man;
+
 char stack_led_bl[16];
 char done;
 /**********************************************************************
@@ -65,27 +66,19 @@ char done;
  *
  **********************************************************************/
 #pragma		code	LED_BL_ROM
-unsigned int counter;
+unsigned int Counter;
 TASK(Led_blinking)
 {
-   if (done == 0)
+    Counter++;
+   if (Counter >= 4)
    {
-      PORTEbits.RE1 = 1;
-      done = 1;
+       ActivateTask(3);
+       Counter=0;
    }
-   else
-   {
-      PORTEbits.RE1 = 0;
-      done = 0;
-   }
-
-   counter++;
-   if (counter == 4)
-   {
-      SetEvent(LEDEVENT, LED_EVENT);
-      counter = 0;
-   }
-
    TerminateTask();
 }
  
+TASK(Man)
+{
+TerminateTask();
+}
