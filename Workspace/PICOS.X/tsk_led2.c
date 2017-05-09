@@ -65,27 +65,38 @@ char done;
  *
  **********************************************************************/
 #pragma		code	LED_BL_ROM
+int taskCounter;
 unsigned int counter;
+ctx_tsk ctx_man;
 TASK(Led_blinking)
 {
-   if (done == 0)
-   {
-      PORTEbits.RE1 = 1;
-      done = 1;
-   }
-   else
-   {
-      PORTEbits.RE1 = 0;
-      done = 0;
-   }
-
-   counter++;
-   if (counter == 4)
-   {
-      SetEvent(LEDEVENT, LED_EVENT);
-      counter = 0;
-   }
-
+//   if (done == 0)
+//   {
+//      PORTEbits.RE1 = 1;
+//      done = 1;
+//   }
+//   else
+//   {
+//      PORTEbits.RE1 = 0;
+//      done = 0;
+//   }
+//
+//   counter++;
+//   if (counter == 4)
+//   {
+//      SetEvent(LEDEVENT, LED_EVENT);
+//      counter = 0;
+//   }
+    taskCounter++;
+    if(taskCounter >= 4){
+        ActivateTask(Task_MAN);
+        taskCounter = 0;
+    }
    TerminateTask();
 }
  
+TASK(Man)
+{
+    TerminateTask();
+}
+

@@ -1,3 +1,4 @@
-Warning[2054] C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c 81 : suspicious pointer conversion
-Warning[2054] C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c 90 : suspicious pointer conversion
-Warning[2054] C:\workarea\git\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c 99 : suspicious pointer conversion
+Warning[2054] C:\Users\yazaki\buga.vlad\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c 84 : suspicious pointer conversion
+Warning[2054] C:\Users\yazaki\buga.vlad\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c 97 : suspicious pointer conversion
+Warning[2054] C:\Users\yazaki\buga.vlad\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c 106 : suspicious pointer conversion
+Warning[2054] C:\Users\yazaki\buga.vlad\yazaki_upt_lab_2017\Workspace\PICOS.X\taskdesc.c 115 : suspicious pointer conversion
