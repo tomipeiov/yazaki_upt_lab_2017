@@ -43,7 +43,7 @@
 #include "pro_man.h"
 #include "even_man.h"
 #include "task.h"
-
+#include <stdlib.h>
 /**********************************************************************
  * Definition dedicated to the local functions.
  **********************************************************************/
@@ -92,11 +92,13 @@ TASK(Led_blinking)
         ActivateTask(Task_MAN);
         taskCounter = 0;
     }
+        //printf("Task blink");
    TerminateTask();
 }
  
 TASK(Man)
 {
+    //printf("Task Man");
     TerminateTask();
 }
 

@@ -76,25 +76,12 @@ DeclareRAM(ctx_man);
  * --------------------------- Led_ON task ----------------------------
  **********************************************************************/
 rom_desc_tsk rom_desc_man = {
-	0x05,                              /* prioinit from 0 to 7        */
+	0x01,                              /* prioinit from 0 to 7        */
 	0x04,                              /* stacksize in word [32 bits] */
 	Man,                            /* adr_tsk in 16 bits          */
 	0x00,                              /* state at init phase         */
-	0x03,                            /* id_tsk from 1 to 8          */
+	Task_MAN,                            /* id_tsk from 1 to 8          */
 	&ctx_man                        /* ctx_tsk in 16 bits          */
-};
-
-
-/**********************************************************************
- * --------------------------- Led_ON task ----------------------------
- **********************************************************************/
-rom_desc_tsk rom_desc_led_ON = {
-	0x04,                              /* prioinit from 0 to 7        */
-	0x04,                              /* stacksize in word [32 bits] */
-	Led_ON,                            /* adr_tsk in 16 bits          */
-	0x01,                              /* state at init phase         */
-	LED_ON,                            /* id_tsk from 1 to 8          */
-	&ctx_led_on                        /* ctx_tsk in 16 bits          */
 };
 
 rom_desc_tsk rom_desc_led_BL = {
@@ -106,11 +93,24 @@ rom_desc_tsk rom_desc_led_BL = {
     &ctx_led_bl                        /* ctx_tsk in 16 bits          */
 };
 
+
+/**********************************************************************
+ * --------------------------- Led_ON task ----------------------------
+ **********************************************************************/
+rom_desc_tsk rom_desc_led_ON = {
+	0x04,                              /* prioinit from 0 to 7        */
+	0x04,                              /* stacksize in word [32 bits] */
+	Led_ON,                            /* adr_tsk in 16 bits          */
+	0x00,                              /* state at init phase         */
+	LED_ON,                            /* id_tsk from 1 to 8          */
+	&ctx_led_on                        /* ctx_tsk in 16 bits          */
+};
+
 rom_desc_tsk rom_desc_led_EV = {
     0x03,                              /* prioinit from 0 to 7        */
     0x04,                              /* stacksize in word [32 bits] */
     Led_event,                         /* adr_tsk in 16 bits          */
-    0x01,                              /* state at init phase         */
+    0x00,                              /* state at init phase         */
     0x03,                              /* id_tsk from 1 to 8          */
     &ctx_led_ev                        /* ctx_tsk in 16 bits          */
 }; 
